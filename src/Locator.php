@@ -8,6 +8,9 @@ use Habitat\Environment\Environment;
  */
 class Locator
 {
+    /** @type array The possible paths to commands. */
+    protected $_paths;
+
     /**
      * Initialize the locator.
      *
