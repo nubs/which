@@ -10,7 +10,7 @@ A PHP library for locating commands in a PATH.
 [![Latest Unstable Version](https://poser.pugx.org/nubs/which/v/unstable.png)](https://packagist.org/packages/nubs/which)
 [![License](https://poser.pugx.org/nubs/which/license.png)](https://packagist.org/packages/nubs/which)
 
-[![Dependency Status](https://www.versioneye.com/user/projects/53866d7014c15895cb000053/badge.svg)](https://www.versioneye.com/user/projects/53866d7014c15895cb000053)
+[![Dependency Status](https://www.versioneye.com/user/projects/53a01f7b83add749a300001e/badge.svg?style=flat)](https://www.versioneye.com/user/projects/53a01f7b83add749a300001e)
 
 ## Requirements
 This library requires PHP 5.3, or newer.
