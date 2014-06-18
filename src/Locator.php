@@ -34,7 +34,7 @@ class Locator
      */
     public static function createFromPathEnvironmentVariable($path)
     {
-        return new static(array_filter(explode(':', $path)));
+        return new static(array_filter(explode(PATH_SEPARATOR, $path)));
     }
 
     /**
