@@ -19,6 +19,7 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      * @covers ::_getPotentialCommandLocations
      * @covers ::_getPaths
      * @covers ::_isValidCommandName
+     * @covers ::_isAbsoluteCommandPath
      */
     public function locateSimpleCommand()
     {
@@ -40,6 +41,7 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      * @covers ::_getPotentialCommandLocations
      * @covers ::_getPaths
      * @covers ::_isValidCommandName
+     * @covers ::_isAbsoluteCommandPath
      */
     public function locateNonExecutableCommand()
     {
@@ -52,15 +54,35 @@ class LocatorTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Verify that a bad command name returns no result.
+     * Verify that an absolute path to a command works.
+     *
+     * @test
+     * @covers ::__construct
+     * @covers ::locate
+     * @covers ::locateAll
+     * @covers ::_getPotentialCommandLocations
+     * @covers ::_getPaths
+     * @covers ::_isValidCommandName
+     * @covers ::_isAbsoluteCommandPath
+     */
+    public function locateAbsoluteCommand()
+    {
+        $locator = new Locator(array());
+
+        $this->assertSame('/usr/bin/env', $locator->locate('/usr/bin/env'));
+    }
+
+    /**
+     * Verify that a command name that is in a subdirectory returns no result.
      *
      * @test
      * @covers ::__construct
      * @covers ::locate
      * @covers ::locateAll
      * @covers ::_isValidCommandName
+     * @covers ::_isAbsoluteCommandPath
      */
-    public function locateBadCommandName()
+    public function locateSubdirectoryCommand()
     {
         $locator = new Locator(array());
 
@@ -77,6 +99,7 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      * @covers ::_getPotentialCommandLocations
      * @covers ::_getPaths
      * @covers ::_isValidCommandName
+     * @covers ::_isAbsoluteCommandPath
      */
     public function locateMultipleLocations()
     {
@@ -104,6 +127,7 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      * @covers ::_getPotentialCommandLocations
      * @covers ::_getPaths
      * @covers ::_isValidCommandName
+     * @covers ::_isAbsoluteCommandPath
      */
     public function locateAll()
     {

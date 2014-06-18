@@ -90,6 +90,10 @@ class Locator
      */
     protected function _getPotentialCommandLocations($command)
     {
+        if ($this->_isAbsoluteCommandPath($command)) {
+            return array($command);
+        }
+
         $getCommandPath = function($path) use($command) {
             return "{$path}/{$command}";
         };
@@ -108,13 +112,26 @@ class Locator
     }
 
     /**
-     * Checks to see if the command (basename) is an allowed name for a command.
+     * Checks to see if the command is an allowed name for a command.
      *
      * @param string $command The command name to check.
      * @return bool The validity of the command name.
      */
     protected function _isValidCommandName($command)
     {
-        return strpos($command, '/') === false && $command !== '.' && $command !== '..';
+        $isSubdirectory = strpos($command, '/') !== false && !$this->_isAbsoluteCommandPath($command);
+        $isDotDirectory = $command === '.' || $command === '..';
+        return !$isSubdirectory && !$isDotDirectory;
+    }
+
+    /**
+     * Checks to see if the command is an absolute path.
+     *
+     * @param string $command The command name to check.
+     * @return bool True if the command is an absolute path, false otherwise.
+     */
+    protected function _isAbsoluteCommandPath($command)
+    {
+        return $command[0] === '/';
     }
 }
