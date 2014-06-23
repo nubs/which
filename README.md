@@ -18,3 +18,30 @@ This library requires PHP 5.3, or newer.
 ## Installation
 This package uses [composer](https://getcomposer.org) so you can just add
 `nubs\which` as a dependency to your `composer.json` file.
+
+## Usage
+
+### Constructing a Locator
+There are several ways to create a locator.  The preferred way is to use the
+[brianium/habitat](https://github.com/brianium/habitat) constructor.  Habitat
+makes accessing the environment variables easy, even in cases where the `$_ENV`
+superglobal isn't populated.  You can use it like this:
+```php
+$habitat = new \Habitat\Habitat();
+$environment = $habitat->getEnvironment();
+$locator = \Nubs\Which\Locator::createFromEnvironment($environment);
+```
+
+If you'd prefer not to add another external dependency, you can also construct
+the locator using the `PATH` environment variable:
+```php
+$path = getenv('PATH');
+$locator = \Nubs\Which\Locator::createFromPathEnvironmentVariable($path);
+```
+
+Finally, if you want full control over the paths that are searched, you can use
+the constructor with the array of paths to search:
+```php
+$paths = array('/opt/special/bin', '/usr/local/bin', '/usr/bin', '/bin');
+$locator = new \Nubs\Which\Locator($paths);
+```
