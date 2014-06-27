@@ -116,3 +116,19 @@ var_dump($locator->locate('../bin/php'));
 // array(0) {
 // }
 ```
+
+### CLI Interface
+Also included is a `which` executable that works much like the standard which
+utility.  It takes an arbitrary number of parameters and outputs the path to
+each of them.
+
+```bash
+$ ./bin/which more vim foo
+/bin/more
+/usr/bin/vim
+foo not found
+```
+
+The command is configured as a binary with composer, so it is accessible in
+`vendor/bin/which` when you install the package.  For a global install, this
+means that you can find it in `$COMPOSER_HOME/vendor/bin/which`.
