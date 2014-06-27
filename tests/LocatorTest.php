@@ -90,6 +90,24 @@ class LocatorTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Verify that a command name that is empty returns null.
+     *
+     * @test
+     * @covers ::__construct
+     * @covers ::locate
+     * @covers ::locateAll
+     * @covers ::_getPotentialCommandLocations
+     * @covers ::_isValidCommandName
+     * @covers ::_isAbsoluteCommandPath
+     */
+    public function locateEmptyCommand()
+    {
+        $locator = new Locator(array());
+
+        $this->assertSame(null, $locator->locate(''));
+    }
+
+    /**
      * Verify that locate returns the first occurence of a command.
      *
      * @test

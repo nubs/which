@@ -132,6 +132,6 @@ class Locator
      */
     protected function _isAbsoluteCommandPath($command)
     {
-        return $command[0] === '/';
+        return $command === '' || $command[0] === '/';
     }
 }
