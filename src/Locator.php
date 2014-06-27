@@ -79,7 +79,11 @@ class Locator
             return array();
         }
 
-        return array_values(array_unique(array_filter($this->_getPotentialCommandLocations($command), 'is_executable')));
+        $isExecutable = function($command) {
+            return is_executable($command) && !is_dir($command);
+        };
+
+        return array_values(array_unique(array_filter($this->_getPotentialCommandLocations($command), $isExecutable)));
     }
 
     /**

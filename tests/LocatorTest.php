@@ -90,6 +90,25 @@ class LocatorTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Verify that a directory in the bin dir does not get returned.
+     *
+     * @test
+     * @covers ::__construct
+     * @covers ::locate
+     * @covers ::locateAll
+     * @covers ::_getPotentialCommandLocations
+     * @covers ::_getPaths
+     * @covers ::_isValidCommandName
+     * @covers ::_isAbsoluteCommandPath
+     */
+    public function locateDirectoryCommand()
+    {
+        $locator = new Locator(array('/usr'));
+
+        $this->assertSame(null, $locator->locate('bin'));
+    }
+
+    /**
      * Verify that a command name that is empty returns null.
      *
      * @test
