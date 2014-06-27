@@ -123,9 +123,7 @@ class Locator
      */
     protected function _isValidCommandName($command)
     {
-        $isSubdirectory = strpos($command, '/') !== false && !$this->_isAbsoluteCommandPath($command);
-        $isDotDirectory = $command === '.' || $command === '..';
-        return !$isSubdirectory && !$isDotDirectory;
+        return strpos($command, '/') === false || $this->_isAbsoluteCommandPath($command);
     }
 
     /**
