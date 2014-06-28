@@ -95,7 +95,7 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      */
     public function locateSubdirectoryCommand()
     {
-        $this->assertSame(null, $this->_locator->locate('foo/bar'));
+        $this->assertNull($this->_locator->locate('foo/bar'));
     }
 
     /**
@@ -113,7 +113,7 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      */
     public function locateEmptyCommand()
     {
-        $this->assertSame(null, $this->_locator->locate(''));
+        $this->assertNull($this->_locator->locate(''));
     }
 
     /**
