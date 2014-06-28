@@ -102,7 +102,9 @@ class Locator
      */
     public function pathHelper()
     {
-        return $this->_pathHelper ?: new PathHelper();
+        $this->_pathHelper = $this->_pathHelper ?: new PathHelper();
+
+        return $this->_pathHelper;
     }
 
     /**
@@ -124,7 +126,9 @@ class Locator
      */
     public function executableTester()
     {
-        return $this->_executableTester ?: new ExecutableTester();
+        $this->_executableTester = $this->_executableTester ?: new ExecutableTester();
+
+        return $this->_executableTester;
     }
 
     /**
