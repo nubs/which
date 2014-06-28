@@ -11,6 +11,9 @@ class Locator
     /** @type array The possible paths to commands. */
     protected $_paths;
 
+    /** @type \Nubs\Which\PathHelper The path helper. */
+    protected $_pathHelper;
+
     /** @type \Nubs\Which\ExecutableTester The executable tester. */
     protected $_executableTester;
 
@@ -78,11 +81,28 @@ class Locator
      */
     public function locateAll($command)
     {
-        if (!$this->_isValidCommandName($command)) {
-            return array();
-        }
-
         return array_values(array_unique(array_filter($this->_getPotentialCommandLocations($command), $this->executableTester())));
+    }
+
+    /**
+     * Override the default path helper.
+     *
+     * @param \Nubs\Which\PathHelper $pathHelper The path helper.
+     * @return void
+     */
+    public function setPathHelper(PathHelper $pathHelper)
+    {
+        $this->_pathHelper = $pathHelper;
+    }
+
+    /**
+     * Get the path helper.
+     *
+     * @return \Nubs\Which\PathHelper The path helper.
+     */
+    public function pathHelper()
+    {
+        return $this->_pathHelper ?: new PathHelper();
     }
 
     /**
@@ -115,12 +135,18 @@ class Locator
      */
     protected function _getPotentialCommandLocations($command)
     {
-        if ($this->_isAbsoluteCommandPath($command)) {
+        $pathHelper = $this->pathHelper();
+
+        if ($pathHelper->isAbsolute($command)) {
             return array($command);
         }
 
-        $getCommandPath = function($path) use($command) {
-            return "{$path}/{$command}";
+        if (!$pathHelper->isAtom($command)) {
+            return array();
+        }
+
+        $getCommandPath = function($path) use($command, $pathHelper) {
+            return $pathHelper->joinPaths($path, $command);
         };
 
         return array_map($getCommandPath, $this->_getPaths());
@@ -134,27 +160,5 @@ class Locator
     protected function _getPaths()
     {
         return $this->_paths;
-    }
-
-    /**
-     * Checks to see if the command is an allowed name for a command.
-     *
-     * @param string $command The command name to check.
-     * @return bool The validity of the command name.
-     */
-    protected function _isValidCommandName($command)
-    {
-        return strpos($command, '/') === false || $this->_isAbsoluteCommandPath($command);
-    }
-
-    /**
-     * Checks to see if the command is an absolute path.
-     *
-     * @param string $command The command name to check.
-     * @return bool True if the command is an absolute path, false otherwise.
-     */
-    protected function _isAbsoluteCommandPath($command)
-    {
-        return $command !== '' && $command[0] === '/';
     }
 }
