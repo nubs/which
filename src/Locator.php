@@ -11,6 +11,9 @@ class Locator
     /** @type array The possible paths to commands. */
     protected $_paths;
 
+    /** @type \Nubs\Which\ExecutableTester The executable tester. */
+    protected $_executableTester;
+
     /**
      * Initialize the locator.
      *
@@ -79,11 +82,29 @@ class Locator
             return array();
         }
 
-        $isExecutable = function($command) {
-            return is_executable($command) && !is_dir($command);
-        };
+        return array_values(array_unique(array_filter($this->_getPotentialCommandLocations($command), $this->executableTester())));
+    }
 
-        return array_values(array_unique(array_filter($this->_getPotentialCommandLocations($command), $isExecutable)));
+    /**
+     * Override the default executable tester.
+     *
+     * @param \Nubs\Which\ExecutableTester $executableTester The executable
+     *     tester.
+     * @return void
+     */
+    public function setExecutableTester(ExecutableTester $executableTester)
+    {
+        $this->_executableTester = $executableTester;
+    }
+
+    /**
+     * Get the executable tester.
+     *
+     * @return \Nubs\Which\ExecutableTester The executable tester.
+     */
+    public function executableTester()
+    {
+        return $this->_executableTester ?: new ExecutableTester();
     }
 
     /**

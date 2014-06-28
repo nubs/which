@@ -15,7 +15,6 @@
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0",
-        "mikey179/vfsStream": "~1.2",
         "symfony/console": "~2.5",
         "brianium/habitat": "~1.0"
     },

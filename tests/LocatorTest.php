@@ -2,13 +2,23 @@
 namespace Nubs\Which;
 
 use PHPUnit_Framework_TestCase;
-use org\bovigo\vfs\vfsStream;
 
 /**
  * @coversDefaultClass \Nubs\Which\Locator
  */
 class LocatorTest extends PHPUnit_Framework_TestCase
 {
+    private $_executableTester;
+
+    private $_locator;
+
+    public function setUp()
+    {
+        $this->_executableTester = $this->getMockBuilder('\Nubs\Which\ExecutableTester')->disableOriginalConstructor()->setMethods(array('__invoke'))->getMock();
+        $this->_locator = new Locator(array('/foo'));
+        $this->_locator->setExecutableTester($this->_executableTester);
+    }
+
     /**
      * Verify that a simple command works.
      *
@@ -16,6 +26,8 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      * @covers ::__construct
      * @covers ::locate
      * @covers ::locateAll
+     * @covers ::setExecutableTester
+     * @covers ::executableTester
      * @covers ::_getPotentialCommandLocations
      * @covers ::_getPaths
      * @covers ::_isValidCommandName
@@ -23,12 +35,9 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      */
     public function locateSimpleCommand()
     {
-        $vfs = vfsStream::setup('foo');
-        $vfs->addChild(vfsStream::newFile('bar', 0777));
+        $this->_executableTester->expects($this->once())->method('__invoke')->with('/foo/bar')->will($this->returnValue(true));
 
-        $locator = new Locator(array($vfs->url()));
-
-        $this->assertSame('vfs://foo/bar', $locator->locate('bar'));
+        $this->assertSame('/foo/bar', $this->_locator->locate('bar'));
     }
 
     /**
@@ -38,6 +47,8 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      * @covers ::__construct
      * @covers ::locate
      * @covers ::locateAll
+     * @covers ::setExecutableTester
+     * @covers ::executableTester
      * @covers ::_getPotentialCommandLocations
      * @covers ::_getPaths
      * @covers ::_isValidCommandName
@@ -45,12 +56,9 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      */
     public function locateNonExecutableCommand()
     {
-        $vfs = vfsStream::setup('foo');
-        $vfs->addChild(vfsStream::newFile('bar', 0666));
+        $this->_executableTester->expects($this->once())->method('__invoke')->with('/foo/bar')->will($this->returnValue(false));
 
-        $locator = new Locator(array($vfs->url()));
-
-        $this->assertNull($locator->locate('bar'));
+        $this->assertNull($this->_locator->locate('bar'));
     }
 
     /**
@@ -60,6 +68,8 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      * @covers ::__construct
      * @covers ::locate
      * @covers ::locateAll
+     * @covers ::setExecutableTester
+     * @covers ::executableTester
      * @covers ::_getPotentialCommandLocations
      * @covers ::_getPaths
      * @covers ::_isValidCommandName
@@ -67,9 +77,9 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      */
     public function locateAbsoluteCommand()
     {
-        $locator = new Locator(array());
+        $this->_executableTester->expects($this->once())->method('__invoke')->with('/foo/bar')->will($this->returnValue(true));
 
-        $this->assertSame('/usr/bin/env', $locator->locate('/usr/bin/env'));
+        $this->assertSame('/foo/bar', $this->_locator->locate('/foo/bar'));
     }
 
     /**
@@ -79,53 +89,13 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      * @covers ::__construct
      * @covers ::locate
      * @covers ::locateAll
+     * @covers ::setExecutableTester
      * @covers ::_isValidCommandName
      * @covers ::_isAbsoluteCommandPath
      */
     public function locateSubdirectoryCommand()
     {
-        $locator = new Locator(array());
-
-        $this->assertSame(null, $locator->locate('foo/bar'));
-    }
-
-    /**
-     * Verify that a directory in the bin dir does not get returned.
-     *
-     * @test
-     * @covers ::__construct
-     * @covers ::locate
-     * @covers ::locateAll
-     * @covers ::_getPotentialCommandLocations
-     * @covers ::_getPaths
-     * @covers ::_isValidCommandName
-     * @covers ::_isAbsoluteCommandPath
-     */
-    public function locateDirectoryCommand()
-    {
-        $locator = new Locator(array('/usr'));
-
-        $this->assertSame(null, $locator->locate('bin'));
-    }
-
-    /**
-     * Verify that the "." directory doesn't get treated as an executable
-     * command.
-     *
-     * @test
-     * @covers ::__construct
-     * @covers ::locate
-     * @covers ::locateAll
-     * @covers ::_getPotentialCommandLocations
-     * @covers ::_getPaths
-     * @covers ::_isValidCommandName
-     * @covers ::_isAbsoluteCommandPath
-     */
-    public function locateCurrentDirectoryCommand()
-    {
-        $locator = new Locator(array('/foo'));
-
-        $this->assertSame(null, $locator->locate('.'));
+        $this->assertSame(null, $this->_locator->locate('foo/bar'));
     }
 
     /**
@@ -135,15 +105,15 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      * @covers ::__construct
      * @covers ::locate
      * @covers ::locateAll
+     * @covers ::setExecutableTester
+     * @covers ::executableTester
      * @covers ::_getPotentialCommandLocations
      * @covers ::_isValidCommandName
      * @covers ::_isAbsoluteCommandPath
      */
     public function locateEmptyCommand()
     {
-        $locator = new Locator(array());
-
-        $this->assertSame(null, $locator->locate(''));
+        $this->assertSame(null, $this->_locator->locate(''));
     }
 
     /**
@@ -153,6 +123,8 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      * @covers ::__construct
      * @covers ::locate
      * @covers ::locateAll
+     * @covers ::setExecutableTester
+     * @covers ::executableTester
      * @covers ::_getPotentialCommandLocations
      * @covers ::_getPaths
      * @covers ::_isValidCommandName
@@ -160,19 +132,13 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      */
     public function locateMultipleLocations()
     {
-        $foo = vfsStream::newDirectory('foo', 0777);
-        $foo->addChild(vfsStream::newFile('bar', 0777));
+        $this->_executableTester->expects($this->at(0))->method('__invoke')->with('/foo/bar')->will($this->returnValue(true));
+        $this->_executableTester->expects($this->at(1))->method('__invoke')->with('/baz/bar')->will($this->returnValue(true));
 
-        $baz = vfsStream::newDirectory('baz', 0777);
-        $baz->addChild(vfsStream::newFile('bar', 0777));
+        $locator = new Locator(array('/foo', '/baz'));
+        $locator->setExecutableTester($this->_executableTester);
 
-        $vfs = vfsStream::setup('base');
-        $vfs->addChild($foo);
-        $vfs->addChild($baz);
-
-        $locator = new Locator(array($foo->url(), $baz->url()));
-
-        $this->assertSame('vfs://base/foo/bar', $locator->locate('bar'));
+        $this->assertSame('/foo/bar', $locator->locate('bar'));
     }
 
     /**
@@ -181,6 +147,8 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      * @test
      * @covers ::__construct
      * @covers ::locateAll
+     * @covers ::setExecutableTester
+     * @covers ::executableTester
      * @covers ::_getPotentialCommandLocations
      * @covers ::_getPaths
      * @covers ::_isValidCommandName
@@ -188,19 +156,13 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      */
     public function locateAll()
     {
-        $foo = vfsStream::newDirectory('foo', 0777);
-        $foo->addChild(vfsStream::newFile('bar', 0777));
+        $this->_executableTester->expects($this->at(0))->method('__invoke')->with('/foo/bar')->will($this->returnValue(true));
+        $this->_executableTester->expects($this->at(1))->method('__invoke')->with('/baz/bar')->will($this->returnValue(true));
 
-        $baz = vfsStream::newDirectory('baz', 0777);
-        $baz->addChild(vfsStream::newFile('bar', 0777));
+        $locator = new Locator(array('/foo', '/baz'));
+        $locator->setExecutableTester($this->_executableTester);
 
-        $vfs = vfsStream::setup('base');
-        $vfs->addChild($foo);
-        $vfs->addChild($baz);
-
-        $locator = new Locator(array($foo->url(), $baz->url()));
-
-        $this->assertSame(array('vfs://base/foo/bar', 'vfs://base/baz/bar'), $locator->locateAll('bar'));
+        $this->assertSame(array('/foo/bar', '/baz/bar'), $locator->locateAll('bar'));
     }
 
     /**
@@ -210,6 +172,7 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      * @covers ::__construct
      * @covers ::createFromPathEnvironmentVariable
      * @covers ::createFromEnvironment
+     * @covers ::setExecutableTester
      */
     public function createFromEnvironment()
     {
