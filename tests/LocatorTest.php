@@ -108,6 +108,7 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      * @covers ::setExecutableTester
      * @covers ::executableTester
      * @covers ::_getPotentialCommandLocations
+     * @covers ::_getPaths
      * @covers ::_isValidCommandName
      * @covers ::_isAbsoluteCommandPath
      */
