@@ -131,4 +131,6 @@ foo not found
 
 The command is configured as a binary with composer, so it is accessible in
 `vendor/bin/which` when you install the package.  For a global install, this
-means that you can find it in `$COMPOSER_HOME/vendor/bin/which`.
+means that you can find it in `$COMPOSER_HOME/vendor/bin/which`.  This command
+does require the symfony/console package to be installed and accessible via the
+autoloader.
