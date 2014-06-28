@@ -8,6 +8,13 @@ use PHPUnit_Framework_TestCase;
  */
 class PathHelperTest extends PHPUnit_Framework_TestCase
 {
+    private $_pathHelper;
+
+    public function setUp()
+    {
+        $this->_pathHelper = new PathHelper();
+    }
+
     /**
      * Verify that join paths works.
      *
@@ -16,8 +23,7 @@ class PathHelperTest extends PHPUnit_Framework_TestCase
      */
     public function joinPaths()
     {
-        $pathHelper = new PathHelper();
-        $this->assertSame('/foo/bar', $pathHelper->joinPaths('/foo', 'bar'));
+        $this->assertSame('/foo/bar', $this->_pathHelper->joinPaths('/foo', 'bar'));
     }
 
     /**
@@ -28,8 +34,7 @@ class PathHelperTest extends PHPUnit_Framework_TestCase
      */
     public function isAtomWithAtom()
     {
-        $pathHelper = new PathHelper();
-        $this->assertTrue($pathHelper->isAtom('foo'));
+        $this->assertTrue($this->_pathHelper->isAtom('foo'));
     }
 
     /**
@@ -40,8 +45,7 @@ class PathHelperTest extends PHPUnit_Framework_TestCase
      */
     public function isAtomWithSubdirectory()
     {
-        $pathHelper = new PathHelper();
-        $this->assertFalse($pathHelper->isAtom('foo/bar'));
+        $this->assertFalse($this->_pathHelper->isAtom('foo/bar'));
     }
 
     /**
@@ -52,8 +56,7 @@ class PathHelperTest extends PHPUnit_Framework_TestCase
      */
     public function isAbsoluteWithAbsolute()
     {
-        $pathHelper = new PathHelper();
-        $this->assertTrue($pathHelper->isAbsolute('/foo/bar'));
+        $this->assertTrue($this->_pathHelper->isAbsolute('/foo/bar'));
     }
 
     /**
@@ -64,7 +67,6 @@ class PathHelperTest extends PHPUnit_Framework_TestCase
      */
     public function isAbsoluteWithSubdirectory()
     {
-        $pathHelper = new PathHelper();
-        $this->assertFalse($pathHelper->isAbsolute('foo/bar'));
+        $this->assertFalse($this->_pathHelper->isAbsolute('foo/bar'));
     }
 }

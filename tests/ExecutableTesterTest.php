@@ -10,9 +10,12 @@ class ExecutableTesterTest extends PHPUnit_Framework_TestCase
 {
     private $_isolator;
 
+    private $_executableTester;
+
     public function setUp()
     {
         $this->_isolator = $this->getMockBuilder('\Icecave\Isolator\Isolator')->disableOriginalConstructor()->setMethods(array('is_executable', 'is_dir'))->getMock();
+        $this->_executableTester = new ExecutableTester($this->_isolator);
     }
 
     /**
@@ -27,7 +30,7 @@ class ExecutableTesterTest extends PHPUnit_Framework_TestCase
         $this->_isolator->expects($this->once())->method('is_executable')->with('/foo/bar')->will($this->returnValue(true));
         $this->_isolator->expects($this->once())->method('is_dir')->with('/foo/bar')->will($this->returnValue(false));
 
-        $executableTester = new ExecutableTester($this->_isolator);
+        $executableTester = $this->_executableTester;
         $this->assertTrue($executableTester('/foo/bar'));
     }
 
@@ -43,7 +46,7 @@ class ExecutableTesterTest extends PHPUnit_Framework_TestCase
         $this->_isolator->expects($this->once())->method('is_executable')->with('/foo/bar')->will($this->returnValue(false));
         $this->_isolator->expects($this->once())->method('is_dir')->with('/foo/bar')->will($this->returnValue(false));
 
-        $executableTester = new ExecutableTester($this->_isolator);
+        $executableTester = $this->_executableTester;
         $this->assertFalse($executableTester('/foo/bar'));
     }
 
@@ -59,7 +62,7 @@ class ExecutableTesterTest extends PHPUnit_Framework_TestCase
         $this->_isolator->expects($this->once())->method('is_executable')->with('/foo/bar')->will($this->returnValue(true));
         $this->_isolator->expects($this->once())->method('is_dir')->with('/foo/bar')->will($this->returnValue(true));
 
-        $executableTester = new ExecutableTester($this->_isolator);
+        $executableTester = $this->_executableTester;
         $this->assertFalse($executableTester('/foo/bar'));
     }
 }
