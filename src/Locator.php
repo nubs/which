@@ -141,12 +141,8 @@ class Locator
     {
         $pathHelper = $this->pathHelper();
 
-        if ($pathHelper->isAbsolute($command)) {
-            return array($command);
-        }
-
         if (!$pathHelper->isAtom($command)) {
-            return array();
+            return array($command);
         }
 
         $getCommandPath = function($path) use($command, $pathHelper) {

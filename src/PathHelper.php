@@ -28,15 +28,4 @@ class PathHelper
     {
         return strpos($path, '/') === false;
     }
-
-    /**
-     * Checks to see if a path is an absolute path.
-     *
-     * @param string $path The path to check.
-     * @return boolean True if it's an absolute path, false if relative.
-     */
-    public function isAbsolute($path)
-    {
-        return $path !== '' && $path[0] === '/';
-    }
 }

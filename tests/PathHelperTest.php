@@ -47,26 +47,4 @@ class PathHelperTest extends PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->_pathHelper->isAtom('foo/bar'));
     }
-
-    /**
-     * Verify that isAbsolute works with an absolute path.
-     *
-     * @test
-     * @covers ::isAbsolute
-     */
-    public function isAbsoluteWithAbsolute()
-    {
-        $this->assertTrue($this->_pathHelper->isAbsolute('/foo/bar'));
-    }
-
-    /**
-     * Verify that isAbsolute works with a sub directory.
-     *
-     * @test
-     * @covers ::isAbsolute
-     */
-    public function isAbsoluteWithSubdirectory()
-    {
-        $this->assertFalse($this->_pathHelper->isAbsolute('foo/bar'));
-    }
 }
