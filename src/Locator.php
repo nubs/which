@@ -145,11 +145,11 @@ class Locator
             return array($command);
         }
 
-        $getCommandPath = function($path) use($command, $pathHelper) {
+        $appendCommand = function($path) use($command, $pathHelper) {
             return $pathHelper->joinPaths($path, $command);
         };
 
-        return array_map($getCommandPath, $this->_getPaths());
+        return array_map($appendCommand, $this->_getPaths());
     }
 
     /**
