@@ -31,8 +31,14 @@ $environment = $habitat->getEnvironment();
 $locator = \Nubs\Which\Locator::createFromEnvironment($environment);
 ```
 
-If you'd prefer not to add another external dependency, you can also construct
-the locator using the `PATH` environment variable:
+If you'd prefer not to add another external dependency, you don't have to use
+Habitat and can instead use PHP's built in `getenv`:
+```php
+$locator = \Nubs\Which\Locator::createFromEnvironment();
+```
+
+Or you can construct the locator using the `PATH` environment variable
+directly:
 ```php
 $path = getenv('PATH');
 $locator = \Nubs\Which\Locator::createFromPathEnvironmentVariable($path);
