@@ -1,8 +1,6 @@
 <?php
 namespace Nubs\Which;
 
-use Habitat\Environment\Environment;
-
 /**
  * Provides the ability to locate commands in the user's PATH.
  */
@@ -26,35 +24,6 @@ class Locator
     public function __construct(array $paths)
     {
         $this->_paths = $paths;
-    }
-
-    /**
-     * Factory method to create a locator using a colon-separated PATH string.
-     *
-     * The colon is a hard separator.  This means that command paths cannot have
-     * a colon in the name.
-     *
-     * @api
-     * @param string $path The colon-separated PATH string.
-     * @return self The locator.
-     */
-    public static function createFromPathEnvironmentVariable($path)
-    {
-        return new static(array_filter(explode(':', $path)));
-    }
-
-    /**
-     * Factory method to create a locator from the PATH environment variable.
-     *
-     * @api
-     * @param \Habitat\Environment\Environment $environment The environment
-     *     variable wrapper.  Defaults to null which just uses the built-in
-     *     getenv.
-     * @return self The locator.
-     */
-    public static function createFromEnvironment(Environment $environment = null)
-    {
-        return static::createFromPathEnvironmentVariable($environment ? $environment->getenv('PATH') : getenv('PATH'));
     }
 
     /**

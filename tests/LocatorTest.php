@@ -199,22 +199,4 @@ class LocatorTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame(array('/foo/bar', '/baz/bar'), $locator->locateAll('bar'));
     }
-
-    /**
-     * Verify that constructing from environment variables works
-     *
-     * @test
-     * @covers ::__construct
-     * @covers ::createFromPathEnvironmentVariable
-     * @covers ::createFromEnvironment
-     * @covers ::setPathHelper
-     * @covers ::setExecutableTester
-     */
-    public function createFromEnvironment()
-    {
-        $env = $this->getMockBuilder('\Habitat\Environment\Environment')->disableOriginalConstructor()->setMethods(array('getenv'))->getMock();
-        $env->expects($this->once())->method('getenv')->with('PATH')->will($this->returnValue('abcd'));
-
-        $locator = Locator::createFromEnvironment($env);
-    }
 }
