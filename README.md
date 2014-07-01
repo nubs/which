@@ -55,9 +55,7 @@ $locator = new \Nubs\Which\Locator($paths);
 The locator can find commands based off of its configured paths and will return
 `null` if the command could not be found:
 ```php
-$habitat = new \Habitat\Habitat();
-$environment = $habitat->getEnvironment();
-$locator = \Nubs\Which\Locator::createFromEnvironment($environment);
+$locator = \Nubs\Which\Locator::createFromEnvironment();
 
 echo $locator->locate('php');
 // /usr/bin/php
@@ -69,9 +67,7 @@ var_dump($locator->locate('asdf'));
 It can also be given an absolute path, in which case the configured paths are
 ignored and only the absolute path is checked:
 ```php
-$habitat = new \Habitat\Habitat();
-$environment = $habitat->getEnvironment();
-$locator = \Nubs\Which\Locator::createFromEnvironment($environment);
+$locator = \Nubs\Which\Locator::createFromEnvironment();
 
 echo $locator->locate('/opt/php/bin/php');
 // /opt/php/bin/php
@@ -80,9 +76,7 @@ echo $locator->locate('/opt/php/bin/php');
 Except for absolute paths, all other directory traversal is ignored and will
 return `null` as though no matching command was found:
 ```php
-$habitat = new \Habitat\Habitat();
-$environment = $habitat->getEnvironment();
-$locator = \Nubs\Which\Locator::createFromEnvironment($environment);
+$locator = \Nubs\Which\Locator::createFromEnvironment();
 
 var_dump($locator->locate('foo/php'));
 // NULL
@@ -95,9 +89,7 @@ Finally, an additional `locateAll` method is included.  If a command exists at
 multiple places on the `PATH`, this will return all of them.  It behaves all
 the rules as the standard `locate` method.
 ```php
-$habitat = new \Habitat\Habitat();
-$environment = $habitat->getEnvironment();
-$locator = \Nubs\Which\Locator::createFromEnvironment($environment);
+$locator = \Nubs\Which\Locator::createFromEnvironment();
 
 var_dump($locator->locateAll('php'));
 // array(2) {
