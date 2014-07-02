@@ -3,6 +3,9 @@ namespace Nubs\Which\LocatorFactory;
 
 use Nubs\Which\Locator;
 
+/**
+ * Locator factory for POSIXy systems (e.g. Linux, OSX, BSD).
+ */
 class PosixLocatorFactory extends AbstractLocatorFactory
 {
     /**

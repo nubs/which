@@ -3,6 +3,9 @@ namespace Nubs\Which\LocatorFactory;
 
 use Nubs\Which\Locator;
 
+/**
+ * Locator factory for Windows systems.
+ */
 class WindowsLocatorFactory extends AbstractLocatorFactory
 {
     /**

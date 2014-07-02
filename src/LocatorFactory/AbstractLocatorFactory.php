@@ -3,6 +3,9 @@ namespace Nubs\Which\LocatorFactory;
 
 use Habitat\Environment\Environment;
 
+/**
+ * Abstract base class for the locator factories.
+ */
 abstract class AbstractLocatorFactory
 {
     /**
