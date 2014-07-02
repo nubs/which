@@ -2,6 +2,7 @@
 namespace Nubs\Which\LocatorFactory;
 
 use Nubs\Which\Locator;
+use Nubs\Which\PathHelper\PosixPathHelper;
 
 /**
  * Locator factory for POSIXy systems (e.g. Linux, OSX, BSD).
@@ -20,6 +21,9 @@ class PosixLocatorFactory extends AbstractLocatorFactory
      */
     public function createFromPath($path)
     {
-        return new Locator(array_filter(explode(':', $path)));
+        $locator = new Locator(array_filter(explode(':', $path)));
+        $locator->setPathHelper(new PosixPathHelper());
+
+        return $locator;
     }
 }

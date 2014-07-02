@@ -22,6 +22,7 @@ class WindowsLocatorFactoryTest extends PHPUnit_Framework_TestCase
      * @covers ::createFromPath
      * @covers ::createFromEnvironment
      * @uses \Nubs\Which\Locator::__construct
+     * @uses \Nubs\Which\Locator::setPathHelper
      */
     public function createFromEnvironment()
     {
