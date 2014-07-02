@@ -32,15 +32,16 @@ class WindowsPathBuilder implements PathBuilderInterface
      */
     public function getPermutations($file)
     {
-        if (!$this->_isAtom($file)) {
-            return [$file];
+        $paths = [];
+        if ($this->_isAtom($file)) {
+            $appendFile = function($path) use($file) {
+                return $this->_joinPaths($path, $file);
+            };
+
+            $paths = array_map($appendFile, $this->_paths);
+        } else {
+            $paths = [$file];
         }
-
-        $appendFile = function($path) use($file) {
-            return $this->_joinPaths($path, $file);
-        };
-
-        $paths = array_map($appendFile, $this->_paths);
 
         if (!$this->_hasExtension($file)) {
             $getPathsWithExtensions = function($path) {

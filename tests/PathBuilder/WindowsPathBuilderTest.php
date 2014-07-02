@@ -41,11 +41,13 @@ class WindowsPathBuilderTest extends PHPUnit_Framework_TestCase
      * @covers ::__construct
      * @covers ::getPermutations
      * @covers ::_joinPaths
+     * @covers ::_addExtension
      * @covers ::_isAtom
+     * @covers ::_hasExtension
      */
     public function getPermutationsForAbsolutePath()
     {
-        $this->assertSame(['C:\\qux\\bar'], $this->_windowsPathBuilder->getPermutations('C:\\qux\\bar'));
+        $this->assertSame(['C:\\qux\\bar.exe', 'C:\\qux\\bar.com'], $this->_windowsPathBuilder->getPermutations('C:\\qux\\bar'));
     }
 
     /**
@@ -55,11 +57,13 @@ class WindowsPathBuilderTest extends PHPUnit_Framework_TestCase
      * @covers ::__construct
      * @covers ::getPermutations
      * @covers ::_joinPaths
+     * @covers ::_addExtension
      * @covers ::_isAtom
+     * @covers ::_hasExtension
      */
     public function getPermutationsForSubdirectory()
     {
-        $this->assertSame(['qux\\bar'], $this->_windowsPathBuilder->getPermutations('qux\\bar'));
+        $this->assertSame(['qux\\bar.exe', 'qux\\bar.com'], $this->_windowsPathBuilder->getPermutations('qux\\bar'));
     }
 
     /**
