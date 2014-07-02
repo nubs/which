@@ -1,19 +1,15 @@
 <?php
 namespace Nubs\Which;
 
-use Nubs\Which\PathHelper\PathHelperInterface;
-use Nubs\Which\PathHelper\PosixPathHelper;
+use Nubs\Which\PathBuilder\PathBuilderInterface;
 
 /**
  * Provides the ability to locate commands in the user's PATH.
  */
 class Locator
 {
-    /** @type array The possible paths to commands. */
-    protected $_paths;
-
-    /** @type \Nubs\Which\PathHelper\PathHelperInterface The path helper. */
-    protected $_pathHelper;
+    /** @type \Nubs\Which\PathBuilder\PathBuilderInterface The path builder. */
+    private $_pathBuilder;
 
     /** @type \Nubs\Which\ExecutableTester The executable tester. */
     protected $_executableTester;
@@ -22,11 +18,12 @@ class Locator
      * Initialize the locator.
      *
      * @api
-     * @param array $paths The possible paths to commands.
+     * @param \Nubs\Which\PathBuilder\PathBuilderInterface $pathBuilder The path
+     *     builder.
      */
-    public function __construct(array $paths)
+    public function __construct(PathBuilderInterface $pathBuilder)
     {
-        $this->_paths = $paths;
+        $this->_pathBuilder = $pathBuilder;
     }
 
     /**
@@ -53,31 +50,7 @@ class Locator
      */
     public function locateAll($command)
     {
-        return array_values(array_unique(array_filter($this->_getPotentialCommandLocations($command), $this->executableTester())));
-    }
-
-    /**
-     * Override the default path helper.
-     *
-     * @param \Nubs\Which\PathHelper\PathHelperInterface $pathHelper The path
-     *     helper.
-     * @return void
-     */
-    public function setPathHelper(PathHelperInterface $pathHelper)
-    {
-        $this->_pathHelper = $pathHelper;
-    }
-
-    /**
-     * Get the path helper.
-     *
-     * @return \Nubs\Which\PathHelper\PathHelperInterface The path helper.
-     */
-    public function pathHelper()
-    {
-        $this->_pathHelper = $this->_pathHelper ?: new PosixPathHelper();
-
-        return $this->_pathHelper;
+        return array_values(array_unique(array_filter($this->_pathBuilder->getPermutations($command), $this->executableTester())));
     }
 
     /**
@@ -102,36 +75,5 @@ class Locator
         $this->_executableTester = $this->_executableTester ?: new ExecutableTester();
 
         return $this->_executableTester;
-    }
-
-    /**
-     * Gets the full paths to check for the command.
-     *
-     * @param string $command The command to locate.
-     * @return array The potential paths where the command may exist.
-     */
-    protected function _getPotentialCommandLocations($command)
-    {
-        $pathHelper = $this->pathHelper();
-
-        if (!$pathHelper->isAtom($command)) {
-            return array($command);
-        }
-
-        $appendCommand = function($path) use($command, $pathHelper) {
-            return $pathHelper->joinPaths($path, $command);
-        };
-
-        return array_map($appendCommand, $this->_getPaths());
-    }
-
-    /**
-     * Gets the paths where commands exist.
-     *
-     * @return array The paths where commands may exist.
-     */
-    protected function _getPaths()
-    {
-        return $this->_paths;
     }
 }

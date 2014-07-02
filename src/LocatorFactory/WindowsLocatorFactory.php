@@ -2,7 +2,7 @@
 namespace Nubs\Which\LocatorFactory;
 
 use Nubs\Which\Locator;
-use Nubs\Which\PathHelper\WindowsPathHelper;
+use Nubs\Which\PathBuilder\WindowsPathBuilder;
 
 /**
  * Locator factory for Windows systems.
@@ -23,9 +23,6 @@ class WindowsLocatorFactory extends AbstractLocatorFactory
      */
     public function createFromPath($path)
     {
-        $locator = new Locator(array_merge(array('.'), array_filter(explode(';', $path))));
-        $locator->setPathHelper(new WindowsPathHelper());
-
-        return $locator;
+        return new Locator(new WindowsPathBuilder(array_merge(array('.'), array_filter(explode(';', $path)))));
     }
 }

@@ -8,7 +8,7 @@ use PHPUnit_Framework_TestCase;
  */
 class LocatorTest extends PHPUnit_Framework_TestCase
 {
-    private $_pathHelper;
+    private $_pathBuilder;
 
     private $_executableTester;
 
@@ -16,10 +16,9 @@ class LocatorTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_pathHelper = $this->getMockBuilder('\Nubs\Which\PathHelper\PathHelperInterface')->setMethods(array('joinPaths', 'isAtom'))->getMock();
+        $this->_pathBuilder = $this->getMockBuilder('\Nubs\Which\PathBuilder\PathBuilderInterface')->setMethods(array('getPermutations'))->getMock();
         $this->_executableTester = $this->getMockBuilder('\Nubs\Which\ExecutableTester')->disableOriginalConstructor()->setMethods(array('__invoke'))->getMock();
-        $this->_locator = new Locator(array('/foo'));
-        $this->_locator->setPathHelper($this->_pathHelper);
+        $this->_locator = new Locator($this->_pathBuilder);
         $this->_locator->setExecutableTester($this->_executableTester);
     }
 
@@ -30,18 +29,12 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      * @covers ::__construct
      * @covers ::locate
      * @covers ::locateAll
-     * @covers ::setPathHelper
-     * @covers ::pathHelper
      * @covers ::setExecutableTester
      * @covers ::executableTester
-     * @covers ::_getPotentialCommandLocations
-     * @covers ::_getPaths
      */
     public function locateSimpleCommand()
     {
-        $this->_pathHelper->expects($this->once())->method('isAtom')->with('bar')->will($this->returnValue(true));
-        $this->_pathHelper->expects($this->once())->method('joinPaths')->with('/foo', 'bar')->will($this->returnValue('/foo/bar'));
-
+        $this->_pathBuilder->expects($this->once())->method('getPermutations')->with('bar')->will($this->returnValue(array('/foo/bar')));
         $this->_executableTester->expects($this->once())->method('__invoke')->with('/foo/bar')->will($this->returnValue(true));
 
         $this->assertSame('/foo/bar', $this->_locator->locate('bar'));
@@ -54,91 +47,15 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      * @covers ::__construct
      * @covers ::locate
      * @covers ::locateAll
-     * @covers ::setPathHelper
-     * @covers ::pathHelper
      * @covers ::setExecutableTester
      * @covers ::executableTester
-     * @covers ::_getPotentialCommandLocations
-     * @covers ::_getPaths
      */
     public function locateNonExecutableCommand()
     {
-        $this->_pathHelper->expects($this->once())->method('isAtom')->with('bar')->will($this->returnValue(true));
-        $this->_pathHelper->expects($this->once())->method('joinPaths')->with('/foo', 'bar')->will($this->returnValue('/foo/bar'));
-
+        $this->_pathBuilder->expects($this->once())->method('getPermutations')->with('bar')->will($this->returnValue(array('/foo/bar')));
         $this->_executableTester->expects($this->once())->method('__invoke')->with('/foo/bar')->will($this->returnValue(false));
 
         $this->assertNull($this->_locator->locate('bar'));
-    }
-
-    /**
-     * Verify that an absolute path to a command works.
-     *
-     * @test
-     * @covers ::__construct
-     * @covers ::locate
-     * @covers ::locateAll
-     * @covers ::setPathHelper
-     * @covers ::pathHelper
-     * @covers ::setExecutableTester
-     * @covers ::executableTester
-     * @covers ::_getPotentialCommandLocations
-     * @covers ::_getPaths
-     */
-    public function locateAbsoluteCommand()
-    {
-        $this->_pathHelper->expects($this->once())->method('isAtom')->with('/foo/bar')->will($this->returnValue(false));
-
-        $this->_executableTester->expects($this->once())->method('__invoke')->with('/foo/bar')->will($this->returnValue(true));
-
-        $this->assertSame('/foo/bar', $this->_locator->locate('/foo/bar'));
-    }
-
-    /**
-     * Verify that a command name that is in a subdirectory of the current
-     * directory works.
-     *
-     * @test
-     * @covers ::__construct
-     * @covers ::locate
-     * @covers ::locateAll
-     * @covers ::setPathHelper
-     * @covers ::pathHelper
-     * @covers ::setExecutableTester
-     * @covers ::executableTester
-     * @covers ::_getPotentialCommandLocations
-     */
-    public function locateSubdirectoryCommand()
-    {
-        $this->_pathHelper->expects($this->once())->method('isAtom')->with('foo/bar')->will($this->returnValue(false));
-
-        $this->_executableTester->expects($this->once())->method('__invoke')->with('foo/bar')->will($this->returnValue(true));
-
-        $this->assertSame('foo/bar', $this->_locator->locate('foo/bar'));
-    }
-
-    /**
-     * Verify that a command name that is empty returns null.
-     *
-     * @test
-     * @covers ::__construct
-     * @covers ::locate
-     * @covers ::locateAll
-     * @covers ::setPathHelper
-     * @covers ::pathHelper
-     * @covers ::setExecutableTester
-     * @covers ::executableTester
-     * @covers ::_getPotentialCommandLocations
-     * @covers ::_getPaths
-     */
-    public function locateEmptyCommand()
-    {
-        $this->_pathHelper->expects($this->once())->method('isAtom')->with('')->will($this->returnValue(true));
-        $this->_pathHelper->expects($this->once())->method('joinPaths')->with('/foo', '')->will($this->returnValue('/foo/'));
-
-        $this->_executableTester->expects($this->once())->method('__invoke')->with('/foo/')->will($this->returnValue(false));
-
-        $this->assertNull($this->_locator->locate(''));
     }
 
     /**
@@ -148,24 +65,16 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      * @covers ::__construct
      * @covers ::locate
      * @covers ::locateAll
-     * @covers ::setPathHelper
-     * @covers ::pathHelper
      * @covers ::setExecutableTester
      * @covers ::executableTester
-     * @covers ::_getPotentialCommandLocations
-     * @covers ::_getPaths
      */
     public function locateMultipleLocations()
     {
-        $this->_pathHelper->expects($this->once())->method('isAtom')->with('bar')->will($this->returnValue(true));
-        $this->_pathHelper->expects($this->at(1))->method('joinPaths')->with('/foo', 'bar')->will($this->returnValue('/foo/bar'));
-        $this->_pathHelper->expects($this->at(2))->method('joinPaths')->with('/baz', 'bar')->will($this->returnValue('/baz/bar'));
-
+        $this->_pathBuilder->expects($this->once())->method('getPermutations')->with('bar')->will($this->returnValue(array('/foo/bar', '/baz/bar')));
         $this->_executableTester->expects($this->at(0))->method('__invoke')->with('/foo/bar')->will($this->returnValue(true));
         $this->_executableTester->expects($this->at(1))->method('__invoke')->with('/baz/bar')->will($this->returnValue(true));
 
-        $locator = new Locator(array('/foo', '/baz'));
-        $locator->setPathHelper($this->_pathHelper);
+        $locator = new Locator($this->_pathBuilder);
         $locator->setExecutableTester($this->_executableTester);
 
         $this->assertSame('/foo/bar', $locator->locate('bar'));
@@ -177,24 +86,16 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      * @test
      * @covers ::__construct
      * @covers ::locateAll
-     * @covers ::setPathHelper
-     * @covers ::pathHelper
      * @covers ::setExecutableTester
      * @covers ::executableTester
-     * @covers ::_getPotentialCommandLocations
-     * @covers ::_getPaths
      */
     public function locateAll()
     {
-        $this->_pathHelper->expects($this->once())->method('isAtom')->with('bar')->will($this->returnValue(true));
-        $this->_pathHelper->expects($this->at(1))->method('joinPaths')->with('/foo', 'bar')->will($this->returnValue('/foo/bar'));
-        $this->_pathHelper->expects($this->at(2))->method('joinPaths')->with('/baz', 'bar')->will($this->returnValue('/baz/bar'));
-
+        $this->_pathBuilder->expects($this->once())->method('getPermutations')->with('bar')->will($this->returnValue(array('/foo/bar', '/baz/bar')));
         $this->_executableTester->expects($this->at(0))->method('__invoke')->with('/foo/bar')->will($this->returnValue(true));
         $this->_executableTester->expects($this->at(1))->method('__invoke')->with('/baz/bar')->will($this->returnValue(true));
 
-        $locator = new Locator(array('/foo', '/baz'));
-        $locator->setPathHelper($this->_pathHelper);
+        $locator = new Locator($this->_pathBuilder);
         $locator->setExecutableTester($this->_executableTester);
 
         $this->assertSame(array('/foo/bar', '/baz/bar'), $locator->locateAll('bar'));

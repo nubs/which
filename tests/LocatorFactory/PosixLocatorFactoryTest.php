@@ -22,7 +22,7 @@ class PosixLocatorFactoryTest extends PHPUnit_Framework_TestCase
      * @covers ::createFromPath
      * @covers ::createFromEnvironment
      * @uses \Nubs\Which\Locator::__construct
-     * @uses \Nubs\Which\Locator::setPathHelper
+     * @uses \Nubs\Which\PathBuilder\PosixPathBuilder::__construct
      */
     public function createFromEnvironment()
     {

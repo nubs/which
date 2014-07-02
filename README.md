@@ -71,10 +71,17 @@ $locatorFactory = new \Nubs\Which\LocatorFactory\WindowsLocatorFactory();
 ```
 
 Finally, if you want full control over the paths that are searched, you can use
-the constructor with the array of paths to search:
+specify exactly which paths to use:
 ```php
 $paths = array('/opt/special/bin', '/usr/local/bin', '/usr/bin', '/bin');
-$locator = new \Nubs\Which\Locator($paths);
+$pathBuilder = new \Nubs\Which\PathBuilder\PosixPathBuilder($paths);
+$locator = new \Nubs\Which\Locator($pathBuilder);
+
+// or
+
+$paths = array('C:\\Windows\\System32', 'C:\\Windows');
+$pathBuilder = new \Nubs\Which\PathBuilder\WindowsPathBuilder($paths);
+$locator = new \Nubs\Which\Locator($pathBuilder);
 ```
 
 ### Locating commands
