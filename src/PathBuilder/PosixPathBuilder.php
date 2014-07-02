@@ -17,7 +17,7 @@ class PosixPathBuilder implements PathBuilderInterface
      */ 
     public function __construct(array $paths)
     {
-        $this->_paths = $paths;
+        $this->_paths = array_values(array_unique($paths));
     }
 
     /**
