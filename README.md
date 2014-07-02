@@ -80,7 +80,11 @@ $locator = new \Nubs\Which\Locator($pathBuilder);
 // or
 
 $paths = array('C:\\Windows\\System32', 'C:\\Windows');
-$pathBuilder = new \Nubs\Which\PathBuilder\WindowsPathBuilder($paths);
+$pathExtensions = array('.exe', '.com');
+$pathBuilder = new \Nubs\Which\PathBuilder\WindowsPathBuilder(
+    $paths,
+    $pathExtensions
+);
 $locator = new \Nubs\Which\Locator($pathBuilder);
 ```
 

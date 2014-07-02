@@ -1,6 +1,7 @@
 <?php
 namespace Nubs\Which\LocatorFactory;
 
+use Habitat\Environment\Environment;
 use Icecave\Isolator\Isolator;
 
 /**
@@ -37,6 +38,20 @@ class PlatformLocatorFactory extends AbstractLocatorFactory
      */
     public function createFromPath($path)
     {
-        return $this->_platformFactory->createFromPath($path);
+        return call_user_func_array(array($this->_platformFactory, 'createFromPath'), func_get_args());
+    }
+
+    /**
+     * Create a locator using the platform-specific factory.
+     *
+     * @api
+     * @param \Habitat\Environment\Environment $environment The environment
+     *     variable wrapper.  Defaults to null which just uses PHP's built-in
+     *     getenv.
+     * @return \Nubs\Which\Locator The locator.
+     */
+    public function createFromEnvironment(Environment $environment = null)
+    {
+        return call_user_func_array(array($this->_platformFactory, 'createFromEnvironment'), func_get_args());
     }
 }
