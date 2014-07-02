@@ -2,7 +2,7 @@
 <?php
 namespace Nubs\Which\Application;
 
-use Nubs\Which\Locator;
+use Nubs\Which\LocatorFactory\PlatformLocatorFactory;
 
 foreach (array(__DIR__ . '/../../../autoload.php', __DIR__ . '/../vendor/autoload.php') as $file) {
     if (file_exists($file)) {
@@ -18,5 +18,6 @@ if (!defined('WHICH_AUTOLOADER')) {
 
 require WHICH_AUTOLOADER;
 
-$application = new WhichApplication(Locator::createFromEnvironment());
+$platformLocator = new PlatformLocatorFactory();
+$application = new WhichApplication($platformLocator->createFromEnvironment());
 $application->run();
