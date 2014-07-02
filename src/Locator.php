@@ -2,6 +2,7 @@
 namespace Nubs\Which;
 
 use Nubs\Which\PathHelper\PathHelperInterface;
+use Nubs\Which\PathHelper\PosixPathHelper;
 
 /**
  * Provides the ability to locate commands in the user's PATH.
@@ -74,7 +75,7 @@ class Locator
      */
     public function pathHelper()
     {
-        $this->_pathHelper = $this->_pathHelper ?: new PathHelper();
+        $this->_pathHelper = $this->_pathHelper ?: new PosixPathHelper();
 
         return $this->_pathHelper;
     }
