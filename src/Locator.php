@@ -12,7 +12,7 @@ class Locator
     private $_pathBuilder;
 
     /** @type \Nubs\Which\ExecutableTester The executable tester. */
-    protected $_executableTester;
+    private $_executableTester;
 
     /**
      * Initialize the locator.
