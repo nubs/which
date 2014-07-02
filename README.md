@@ -18,6 +18,17 @@ This library requires PHP 5.3, or newer.
 This package uses [composer](https://getcomposer.org) so you can just add
 `nubs\which` as a dependency to your `composer.json` file.
 
+## Example
+Here is a quick example to demonstrate how this library is generally meant to
+be used:
+```php
+$locatorFactory = new \Nubs\Which\LocatorFactory\PlatformLocatorFactory();
+$locator = $locatorFactory->createFromEnvironment();
+
+echo $locator->locate('php');
+// /usr/bin/php
+```
+
 ## Usage
 
 ### Constructing a Locator
