@@ -67,9 +67,7 @@ class LocatorTest extends PHPUnit_Framework_TestCase
         $this->_executableTester->expects($this->at(0))->method('__invoke')->with('/foo/bar')->will($this->returnValue(true));
         $this->_executableTester->expects($this->at(1))->method('__invoke')->with('/baz/bar')->will($this->returnValue(true));
 
-        $locator = new Locator($this->_pathBuilder, $this->_executableTester);
-
-        $this->assertSame('/foo/bar', $locator->locate('bar'));
+        $this->assertSame('/foo/bar', $this->_locator->locate('bar'));
     }
 
     /**
@@ -85,8 +83,6 @@ class LocatorTest extends PHPUnit_Framework_TestCase
         $this->_executableTester->expects($this->at(0))->method('__invoke')->with('/foo/bar')->will($this->returnValue(true));
         $this->_executableTester->expects($this->at(1))->method('__invoke')->with('/baz/bar')->will($this->returnValue(true));
 
-        $locator = new Locator($this->_pathBuilder, $this->_executableTester);
-
-        $this->assertSame(array('/foo/bar', '/baz/bar'), $locator->locateAll('bar'));
+        $this->assertSame(array('/foo/bar', '/baz/bar'), $this->_locator->locateAll('bar'));
     }
 }
