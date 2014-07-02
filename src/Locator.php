@@ -20,10 +20,13 @@ class Locator
      * @api
      * @param \Nubs\Which\PathBuilder\PathBuilderInterface $pathBuilder The path
      *     builder.
+     * @param \Nubs\Which\ExecutableTester $executableTester The executable
+     *     tester.
      */
-    public function __construct(PathBuilderInterface $pathBuilder)
+    public function __construct(PathBuilderInterface $pathBuilder, ExecutableTester $executableTester = null)
     {
         $this->_pathBuilder = $pathBuilder;
+        $this->_executableTester = $executableTester ?: new ExecutableTester();
     }
 
     /**
@@ -50,30 +53,6 @@ class Locator
      */
     public function locateAll($command)
     {
-        return array_values(array_unique(array_filter($this->_pathBuilder->getPermutations($command), $this->executableTester())));
-    }
-
-    /**
-     * Override the default executable tester.
-     *
-     * @param \Nubs\Which\ExecutableTester $executableTester The executable
-     *     tester.
-     * @return void
-     */
-    public function setExecutableTester(ExecutableTester $executableTester)
-    {
-        $this->_executableTester = $executableTester;
-    }
-
-    /**
-     * Get the executable tester.
-     *
-     * @return \Nubs\Which\ExecutableTester The executable tester.
-     */
-    public function executableTester()
-    {
-        $this->_executableTester = $this->_executableTester ?: new ExecutableTester();
-
-        return $this->_executableTester;
+        return array_values(array_unique(array_filter($this->_pathBuilder->getPermutations($command), $this->_executableTester)));
     }
 }

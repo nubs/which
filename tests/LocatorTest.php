@@ -18,8 +18,7 @@ class LocatorTest extends PHPUnit_Framework_TestCase
     {
         $this->_pathBuilder = $this->getMockBuilder('\Nubs\Which\PathBuilder\PathBuilderInterface')->setMethods(array('getPermutations'))->getMock();
         $this->_executableTester = $this->getMockBuilder('\Nubs\Which\ExecutableTester')->disableOriginalConstructor()->setMethods(array('__invoke'))->getMock();
-        $this->_locator = new Locator($this->_pathBuilder);
-        $this->_locator->setExecutableTester($this->_executableTester);
+        $this->_locator = new Locator($this->_pathBuilder, $this->_executableTester);
     }
 
     /**
@@ -29,8 +28,6 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      * @covers ::__construct
      * @covers ::locate
      * @covers ::locateAll
-     * @covers ::setExecutableTester
-     * @covers ::executableTester
      */
     public function locateSimpleCommand()
     {
@@ -47,8 +44,6 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      * @covers ::__construct
      * @covers ::locate
      * @covers ::locateAll
-     * @covers ::setExecutableTester
-     * @covers ::executableTester
      */
     public function locateNonExecutableCommand()
     {
@@ -65,8 +60,6 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      * @covers ::__construct
      * @covers ::locate
      * @covers ::locateAll
-     * @covers ::setExecutableTester
-     * @covers ::executableTester
      */
     public function locateMultipleLocations()
     {
@@ -74,8 +67,7 @@ class LocatorTest extends PHPUnit_Framework_TestCase
         $this->_executableTester->expects($this->at(0))->method('__invoke')->with('/foo/bar')->will($this->returnValue(true));
         $this->_executableTester->expects($this->at(1))->method('__invoke')->with('/baz/bar')->will($this->returnValue(true));
 
-        $locator = new Locator($this->_pathBuilder);
-        $locator->setExecutableTester($this->_executableTester);
+        $locator = new Locator($this->_pathBuilder, $this->_executableTester);
 
         $this->assertSame('/foo/bar', $locator->locate('bar'));
     }
@@ -86,8 +78,6 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      * @test
      * @covers ::__construct
      * @covers ::locateAll
-     * @covers ::setExecutableTester
-     * @covers ::executableTester
      */
     public function locateAll()
     {
@@ -95,8 +85,7 @@ class LocatorTest extends PHPUnit_Framework_TestCase
         $this->_executableTester->expects($this->at(0))->method('__invoke')->with('/foo/bar')->will($this->returnValue(true));
         $this->_executableTester->expects($this->at(1))->method('__invoke')->with('/baz/bar')->will($this->returnValue(true));
 
-        $locator = new Locator($this->_pathBuilder);
-        $locator->setExecutableTester($this->_executableTester);
+        $locator = new Locator($this->_pathBuilder, $this->_executableTester);
 
         $this->assertSame(array('/foo/bar', '/baz/bar'), $locator->locateAll('bar'));
     }
