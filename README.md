@@ -47,6 +47,18 @@ $locatorFactory = new \Nubs\Which\LocatorFactory\PlatformLocatorFactory();
 $locator = $locatorFactory->createFromPath($path);
 ```
 
+There are also two platform-specific factories in case you don't want to rely
+on the platform detection in the `PlatformLocatorFactory`.  If you are on a
+POSIXy system (e.g., Linux, OSX, BSD), you can use the `PosixLocatorFactory`
+and if you are on a Windows system you can use the `WindowsLocatorFactory`.
+```php
+$locatorFactory = new \Nubs\Which\LocatorFactory\PosixLocatorFactory();
+
+// or
+
+$locatorFactory = new \Nubs\Which\LocatorFactory\WindowsLocatorFactory();
+```
+
 Finally, if you want full control over the paths that are searched, you can use
 the constructor with the array of paths to search:
 ```php
