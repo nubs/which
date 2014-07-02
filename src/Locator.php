@@ -1,6 +1,8 @@
 <?php
 namespace Nubs\Which;
 
+use Nubs\Which\PathHelper\PathHelperInterface;
+
 /**
  * Provides the ability to locate commands in the user's PATH.
  */
@@ -9,7 +11,7 @@ class Locator
     /** @type array The possible paths to commands. */
     protected $_paths;
 
-    /** @type \Nubs\Which\PathHelper The path helper. */
+    /** @type \Nubs\Which\PathHelper\PathHelperInterface The path helper. */
     protected $_pathHelper;
 
     /** @type \Nubs\Which\ExecutableTester The executable tester. */
@@ -56,10 +58,11 @@ class Locator
     /**
      * Override the default path helper.
      *
-     * @param \Nubs\Which\PathHelper $pathHelper The path helper.
+     * @param \Nubs\Which\PathHelper\PathHelperInterface $pathHelper The path
+     *     helper.
      * @return void
      */
-    public function setPathHelper(PathHelper $pathHelper)
+    public function setPathHelper(PathHelperInterface $pathHelper)
     {
         $this->_pathHelper = $pathHelper;
     }
@@ -67,7 +70,7 @@ class Locator
     /**
      * Get the path helper.
      *
-     * @return \Nubs\Which\PathHelper The path helper.
+     * @return \Nubs\Which\PathHelper\PathHelperInterface The path helper.
      */
     public function pathHelper()
     {

@@ -1,10 +1,10 @@
 <?php
-namespace Nubs\Which;
+namespace Nubs\Which\PathHelper;
 
 /**
- * Provides some helper methods for paths.
+ * Provides some helper methods for POSIXy paths.
  */
-class PathHelper
+class PosixPathHelper implements PathHelperInterface
 {
     /**
      * Joins two path segments together.

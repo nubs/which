@@ -1,18 +1,18 @@
 <?php
-namespace Nubs\Which;
+namespace Nubs\Which\PathHelper;
 
 use PHPUnit_Framework_TestCase;
 
 /**
- * @coversDefaultClass \Nubs\Which\PathHelper
+ * @coversDefaultClass \Nubs\Which\PathHelper\PosixPathHelper
  */
-class PathHelperTest extends PHPUnit_Framework_TestCase
+class PosixPathHelperTest extends PHPUnit_Framework_TestCase
 {
-    private $_pathHelper;
+    private $_posixPathHelper;
 
     public function setUp()
     {
-        $this->_pathHelper = new PathHelper();
+        $this->_posixPathHelper = new PosixPathHelper();
     }
 
     /**
@@ -23,7 +23,7 @@ class PathHelperTest extends PHPUnit_Framework_TestCase
      */
     public function joinPaths()
     {
-        $this->assertSame('/foo/bar', $this->_pathHelper->joinPaths('/foo', 'bar'));
+        $this->assertSame('/foo/bar', $this->_posixPathHelper->joinPaths('/foo', 'bar'));
     }
 
     /**
@@ -34,7 +34,7 @@ class PathHelperTest extends PHPUnit_Framework_TestCase
      */
     public function isAtomWithAtom()
     {
-        $this->assertTrue($this->_pathHelper->isAtom('foo'));
+        $this->assertTrue($this->_posixPathHelper->isAtom('foo'));
     }
 
     /**
@@ -45,6 +45,6 @@ class PathHelperTest extends PHPUnit_Framework_TestCase
      */
     public function isAtomWithSubdirectory()
     {
-        $this->assertFalse($this->_pathHelper->isAtom('foo/bar'));
+        $this->assertFalse($this->_posixPathHelper->isAtom('foo/bar'));
     }
 }
