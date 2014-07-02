@@ -14,7 +14,7 @@ class ExecutableTesterTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_isolator = $this->getMockBuilder('\Icecave\Isolator\Isolator')->disableOriginalConstructor()->setMethods(array('is_executable', 'is_dir'))->getMock();
+        $this->_isolator = $this->getMockBuilder('\Icecave\Isolator\Isolator')->disableOriginalConstructor()->setMethods(['is_executable', 'is_dir'])->getMock();
         $this->_executableTester = new ExecutableTester($this->_isolator);
     }
 

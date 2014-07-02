@@ -27,7 +27,7 @@ class WindowsLocatorFactoryTest extends PHPUnit_Framework_TestCase
      */
     public function createFromEnvironment()
     {
-        $env = $this->getMockBuilder('\Habitat\Environment\Environment')->disableOriginalConstructor()->setMethods(array('getenv'))->getMock();
+        $env = $this->getMockBuilder('\Habitat\Environment\Environment')->disableOriginalConstructor()->setMethods(['getenv'])->getMock();
         $env->expects($this->at(0))->method('getenv')->with('PATH')->will($this->returnValue('abcd'));
         $env->expects($this->at(1))->method('getenv')->with('PATHEXT')->will($this->returnValue('abcd'));
 

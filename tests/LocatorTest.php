@@ -16,8 +16,8 @@ class LocatorTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_pathBuilder = $this->getMockBuilder('\Nubs\Which\PathBuilder\PathBuilderInterface')->setMethods(array('getPermutations'))->getMock();
-        $this->_executableTester = $this->getMockBuilder('\Nubs\Which\ExecutableTester')->disableOriginalConstructor()->setMethods(array('__invoke'))->getMock();
+        $this->_pathBuilder = $this->getMockBuilder('\Nubs\Which\PathBuilder\PathBuilderInterface')->setMethods(['getPermutations'])->getMock();
+        $this->_executableTester = $this->getMockBuilder('\Nubs\Which\ExecutableTester')->disableOriginalConstructor()->setMethods(['__invoke'])->getMock();
         $this->_locator = new Locator($this->_pathBuilder, $this->_executableTester);
     }
 
@@ -31,7 +31,7 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      */
     public function locateSimpleCommand()
     {
-        $this->_pathBuilder->expects($this->once())->method('getPermutations')->with('bar')->will($this->returnValue(array('/foo/bar')));
+        $this->_pathBuilder->expects($this->once())->method('getPermutations')->with('bar')->will($this->returnValue(['/foo/bar']));
         $this->_executableTester->expects($this->once())->method('__invoke')->with('/foo/bar')->will($this->returnValue(true));
 
         $this->assertSame('/foo/bar', $this->_locator->locate('bar'));
@@ -47,7 +47,7 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      */
     public function locateNonExecutableCommand()
     {
-        $this->_pathBuilder->expects($this->once())->method('getPermutations')->with('bar')->will($this->returnValue(array('/foo/bar')));
+        $this->_pathBuilder->expects($this->once())->method('getPermutations')->with('bar')->will($this->returnValue(['/foo/bar']));
         $this->_executableTester->expects($this->once())->method('__invoke')->with('/foo/bar')->will($this->returnValue(false));
 
         $this->assertNull($this->_locator->locate('bar'));
@@ -63,7 +63,7 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      */
     public function locateMultipleLocations()
     {
-        $this->_pathBuilder->expects($this->once())->method('getPermutations')->with('bar')->will($this->returnValue(array('/foo/bar', '/baz/bar')));
+        $this->_pathBuilder->expects($this->once())->method('getPermutations')->with('bar')->will($this->returnValue(['/foo/bar', '/baz/bar']));
         $this->_executableTester->expects($this->at(0))->method('__invoke')->with('/foo/bar')->will($this->returnValue(true));
         $this->_executableTester->expects($this->at(1))->method('__invoke')->with('/baz/bar')->will($this->returnValue(true));
 
@@ -79,10 +79,10 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      */
     public function locateAll()
     {
-        $this->_pathBuilder->expects($this->once())->method('getPermutations')->with('bar')->will($this->returnValue(array('/foo/bar', '/baz/bar')));
+        $this->_pathBuilder->expects($this->once())->method('getPermutations')->with('bar')->will($this->returnValue(['/foo/bar', '/baz/bar']));
         $this->_executableTester->expects($this->at(0))->method('__invoke')->with('/foo/bar')->will($this->returnValue(true));
         $this->_executableTester->expects($this->at(1))->method('__invoke')->with('/baz/bar')->will($this->returnValue(true));
 
-        $this->assertSame(array('/foo/bar', '/baz/bar'), $this->_locator->locateAll('bar'));
+        $this->assertSame(['/foo/bar', '/baz/bar'], $this->_locator->locateAll('bar'));
     }
 }

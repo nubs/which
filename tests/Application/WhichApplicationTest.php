@@ -22,14 +22,14 @@ class WhichApplicationTest extends PHPUnit_Framework_TestCase
      */
     public function simpleCall()
     {
-        $locator = $this->getMockBuilder('\Nubs\Which\Locator')->disableOriginalConstructor()->setMethods(array('locate'))->getMock();
+        $locator = $this->getMockBuilder('\Nubs\Which\Locator')->disableOriginalConstructor()->setMethods(['locate'])->getMock();
         $locator->expects($this->once())->method('locate')->with('foo')->will($this->returnValue('/path/to/foo'));
 
         $application = new WhichApplication($locator);
         $application->setAutoExit(false);
         $tester = new ApplicationTester($application);
 
-        $tester->run(array('commands' => array('foo')));
+        $tester->run(['commands' => ['foo']]);
         $this->assertSame(0, $tester->getStatusCode());
         $this->assertSame("/path/to/foo\n", $tester->getDisplay());
     }
@@ -47,7 +47,7 @@ class WhichApplicationTest extends PHPUnit_Framework_TestCase
      */
     public function multiCall()
     {
-        $locator = $this->getMockBuilder('\Nubs\Which\Locator')->disableOriginalConstructor()->setMethods(array('locate'))->getMock();
+        $locator = $this->getMockBuilder('\Nubs\Which\Locator')->disableOriginalConstructor()->setMethods(['locate'])->getMock();
         $locator->expects($this->at(0))->method('locate')->with('foo')->will($this->returnValue('/path/to/foo'));
         $locator->expects($this->at(1))->method('locate')->with('bar')->will($this->returnValue('/path/to/bar'));
 
@@ -55,7 +55,7 @@ class WhichApplicationTest extends PHPUnit_Framework_TestCase
         $application->setAutoExit(false);
         $tester = new ApplicationTester($application);
 
-        $tester->run(array('commands' => array('foo', 'bar')));
+        $tester->run(['commands' => ['foo', 'bar']]);
         $this->assertSame(0, $tester->getStatusCode());
         $this->assertSame("/path/to/foo\n/path/to/bar\n", $tester->getDisplay());
     }
@@ -73,14 +73,14 @@ class WhichApplicationTest extends PHPUnit_Framework_TestCase
      */
     public function nonexistantCommand()
     {
-        $locator = $this->getMockBuilder('\Nubs\Which\Locator')->disableOriginalConstructor()->setMethods(array('locate'))->getMock();
+        $locator = $this->getMockBuilder('\Nubs\Which\Locator')->disableOriginalConstructor()->setMethods(['locate'])->getMock();
         $locator->expects($this->once())->method('locate')->with('foo')->will($this->returnValue(null));
 
         $application = new WhichApplication($locator);
         $application->setAutoExit(false);
         $tester = new ApplicationTester($application);
 
-        $tester->run(array('commands' => array('foo')));
+        $tester->run(['commands' => ['foo']]);
         $this->assertSame(1, $tester->getStatusCode());
         $this->assertSame("foo not found\n", $tester->getDisplay());
     }

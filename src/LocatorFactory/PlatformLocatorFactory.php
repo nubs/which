@@ -38,7 +38,7 @@ class PlatformLocatorFactory extends AbstractLocatorFactory
      */
     public function createFromPath($path)
     {
-        return call_user_func_array(array($this->_platformFactory, 'createFromPath'), func_get_args());
+        return call_user_func_array([$this->_platformFactory, 'createFromPath'], func_get_args());
     }
 
     /**
@@ -52,6 +52,6 @@ class PlatformLocatorFactory extends AbstractLocatorFactory
      */
     public function createFromEnvironment(Environment $environment = null)
     {
-        return call_user_func_array(array($this->_platformFactory, 'createFromEnvironment'), func_get_args());
+        return call_user_func_array([$this->_platformFactory, 'createFromEnvironment'], func_get_args());
     }
 }

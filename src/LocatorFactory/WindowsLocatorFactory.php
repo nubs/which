@@ -25,8 +25,8 @@ class WindowsLocatorFactory extends AbstractLocatorFactory
      */
     public function createFromPath($path, $pathext = '')
     {
-        $paths = array_merge(array('.'), array_filter(explode(';', $path)));
-        $extensions = array_merge(array(''), array_filter(explode(';', $pathext)));
+        $paths = array_merge(['.'], array_filter(explode(';', $path)));
+        $extensions = array_merge([''], array_filter(explode(';', $pathext)));
         return new Locator(new WindowsPathBuilder($paths, $extensions));
     }
 

@@ -29,7 +29,7 @@ class PosixPathBuilder implements PathBuilderInterface
     public function getPermutations($file)
     {
         if (!$this->_isAtom($file)) {
-            return array($file);
+            return [$file];
         }
 
         $appendFile = function($path) use($file) {

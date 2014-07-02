@@ -12,7 +12,7 @@ class PosixPathBuilderTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_posixPathBuilder = new PosixPathBuilder(array('/foo', '/baz'));
+        $this->_posixPathBuilder = new PosixPathBuilder(['/foo', '/baz']);
     }
 
     /**
@@ -26,7 +26,7 @@ class PosixPathBuilderTest extends PHPUnit_Framework_TestCase
      */
     public function getPermutations()
     {
-        $this->assertSame(array('/foo/bar', '/baz/bar'), $this->_posixPathBuilder->getPermutations('bar'));
+        $this->assertSame(['/foo/bar', '/baz/bar'], $this->_posixPathBuilder->getPermutations('bar'));
     }
 
     /**
@@ -40,7 +40,7 @@ class PosixPathBuilderTest extends PHPUnit_Framework_TestCase
      */
     public function getPermutationsForAbsolutePath()
     {
-        $this->assertSame(array('/qux/bar'), $this->_posixPathBuilder->getPermutations('/qux/bar'));
+        $this->assertSame(['/qux/bar'], $this->_posixPathBuilder->getPermutations('/qux/bar'));
     }
 
     /**
@@ -54,6 +54,6 @@ class PosixPathBuilderTest extends PHPUnit_Framework_TestCase
      */
     public function getPermutationsForSubdirectory()
     {
-        $this->assertSame(array('qux/bar'), $this->_posixPathBuilder->getPermutations('qux/bar'));
+        $this->assertSame(['qux/bar'], $this->_posixPathBuilder->getPermutations('qux/bar'));
     }
 }

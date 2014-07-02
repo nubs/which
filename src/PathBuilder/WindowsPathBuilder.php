@@ -33,7 +33,7 @@ class WindowsPathBuilder implements PathBuilderInterface
     public function getPermutations($file)
     {
         if (!$this->_isAtom($file)) {
-            return array($file);
+            return [$file];
         }
 
         $hasExtension = $this->_hasExtension($file);
@@ -41,7 +41,7 @@ class WindowsPathBuilder implements PathBuilderInterface
             $fullPath = $this->_joinPaths($path, $file);
 
             if ($hasExtension) {
-                return array($fullPath);
+                return [$fullPath];
             }
 
             $addExtension = function($extension) use ($fullPath) {
