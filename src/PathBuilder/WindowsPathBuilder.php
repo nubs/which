@@ -36,22 +36,25 @@ class WindowsPathBuilder implements PathBuilderInterface
             return [$file];
         }
 
-        $hasExtension = $this->_hasExtension($file);
-        $appendFile = function($path) use($file, $hasExtension) {
-            $fullPath = $this->_joinPaths($path, $file);
-
-            if ($hasExtension) {
-                return [$fullPath];
-            }
-
-            $addExtension = function($extension) use ($fullPath) {
-                return $this->_addExtension($fullPath, $extension);
-            };
-
-            return array_map($addExtension, $this->_extensions);
+        $appendFile = function($path) use($file) {
+            return $this->_joinPaths($path, $file);
         };
 
-        return call_user_func_array('array_merge', array_map($appendFile, $this->_paths));
+        $paths = array_map($appendFile, $this->_paths);
+
+        if (!$this->_hasExtension($file)) {
+            $getPathsWithExtensions = function($path) {
+                $addExtension = function($extension) use($path) {
+                    return $this->_addExtension($path, $extension);
+                };
+
+                return array_map($addExtension, $this->_extensions);
+            };
+
+            $paths = call_user_func_array('array_merge', array_map($getPathsWithExtensions, $paths));
+        }
+
+        return $paths;
     }
 
     /**
