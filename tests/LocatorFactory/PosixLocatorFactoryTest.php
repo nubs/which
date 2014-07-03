@@ -20,16 +20,16 @@ class PosixLocatorFactoryTest extends PHPUnit_Framework_TestCase
      *
      * @test
      * @covers ::createFromPath
-     * @covers ::createFromEnvironment
+     * @covers ::create
      * @uses \Nubs\Which\Locator::__construct
      * @uses \Nubs\Which\PathBuilder\PosixPathBuilder::__construct
      * @uses \Nubs\Which\ExecutableTester::__construct
      */
-    public function createFromEnvironment()
+    public function create()
     {
         $env = $this->getMockBuilder('\Habitat\Environment\Environment')->disableOriginalConstructor()->setMethods(['getenv'])->getMock();
         $env->expects($this->once())->method('getenv')->with('PATH')->will($this->returnValue('abcd'));
 
-        $locator = $this->_locatorFactory->createFromEnvironment($env);
+        $locator = $this->_locatorFactory->create($env);
     }
 }

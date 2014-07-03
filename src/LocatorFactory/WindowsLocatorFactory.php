@@ -39,7 +39,7 @@ class WindowsLocatorFactory implements LocatorFactoryInterface
      *     getenv.
      * @return \Nubs\Which\Locator The locator.
      */
-    public function createFromEnvironment(Environment $environment = null)
+    public function create(Environment $environment = null)
     {
         return $this->createFromPath(
             $environment ? $environment->getenv('PATH') : getenv('PATH'),

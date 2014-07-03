@@ -20,17 +20,17 @@ class WindowsLocatorFactoryTest extends PHPUnit_Framework_TestCase
      *
      * @test
      * @covers ::createFromPath
-     * @covers ::createFromEnvironment
+     * @covers ::create
      * @uses \Nubs\Which\Locator::__construct
      * @uses \Nubs\Which\PathBuilder\WindowsPathBuilder::__construct
      * @uses \Nubs\Which\ExecutableTester::__construct
      */
-    public function createFromEnvironment()
+    public function create()
     {
         $env = $this->getMockBuilder('\Habitat\Environment\Environment')->disableOriginalConstructor()->setMethods(['getenv'])->getMock();
         $env->expects($this->at(0))->method('getenv')->with('PATH')->will($this->returnValue('abcd'));
         $env->expects($this->at(1))->method('getenv')->with('PATHEXT')->will($this->returnValue('abcd'));
 
-        $locator = $this->_locatorFactory->createFromEnvironment($env);
+        $locator = $this->_locatorFactory->create($env);
     }
 }

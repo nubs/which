@@ -19,5 +19,5 @@ if (!defined('WHICH_AUTOLOADER')) {
 require WHICH_AUTOLOADER;
 
 $platformLocator = new PlatformLocatorFactory();
-$application = new WhichApplication($platformLocator->createFromEnvironment());
+$application = new WhichApplication($platformLocator->create());
 $application->run();

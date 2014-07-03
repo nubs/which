@@ -23,7 +23,7 @@ Here is a quick example to demonstrate how this library is generally meant to
 be used:
 ```php
 $locatorFactory = new \Nubs\Which\LocatorFactory\PlatformLocatorFactory();
-$locator = $locatorFactory->createFromEnvironment();
+$locator = $locatorFactory->create();
 
 echo $locator->locate('php');
 // /usr/bin/php
@@ -40,14 +40,14 @@ superglobal isn't populated.  You can use it like this:
 $habitat = new \Habitat\Habitat();
 $environment = $habitat->getEnvironment();
 $locatorFactory = new \Nubs\Which\LocatorFactory\PlatformLocatorFactory();
-$locator = $locatorFactory->createFromEnvironment($environment);
+$locator = $locatorFactory->create($environment);
 ```
 
 If you'd prefer not to add another external dependency, you don't have to use
 Habitat and can instead use PHP's built in `getenv`:
 ```php
 $locatorFactory = new \Nubs\Which\LocatorFactory\PlatformLocatorFactory();
-$locator = $locatorFactory->createFromEnvironment();
+$locator = $locatorFactory->create();
 ```
 
 There are also two platform-specific factories in case you don't want to rely
@@ -56,12 +56,12 @@ POSIXy system (e.g., Linux, OSX, BSD), you can use the `PosixLocatorFactory`
 and if you are on a Windows system you can use the `WindowsLocatorFactory`.
 ```php
 $locatorFactory = new \Nubs\Which\LocatorFactory\PosixLocatorFactory();
-$locator = $LocatorFactory->createFromEnvironment()
+$locator = $LocatorFactory->create()
 
 // or
 
 $locatorFactory = new \Nubs\Which\LocatorFactory\WindowsLocatorFactory();
-$locator = $LocatorFactory->createFromEnvironment()
+$locator = $LocatorFactory->create()
 ```
 
 Finally, if you want full control over the paths that are searched, you can use
@@ -87,7 +87,7 @@ The locator can find commands based off of its configured paths and will return
 `null` if the command could not be found:
 ```php
 $locatorFactory = new \Nubs\Which\LocatorFactory\PlatformLocatorFactory();
-$locator = $locatorFactory->createFromEnvironment();
+$locator = $locatorFactory->create();
 
 echo $locator->locate('php');
 // /usr/bin/php
@@ -100,7 +100,7 @@ It can also be given an absolute path, in which case the configured paths are
 ignored and only the absolute path is checked:
 ```php
 $locatorFactory = new \Nubs\Which\LocatorFactory\PlatformLocatorFactory();
-$locator = $locatorFactory->createFromEnvironment();
+$locator = $locatorFactory->create();
 
 echo $locator->locate('/opt/php/bin/php');
 // /opt/php/bin/php
@@ -110,7 +110,7 @@ Except for absolute paths, all other directory traversal is ignored and will
 return `null` as though no matching command was found:
 ```php
 $locatorFactory = new \Nubs\Which\LocatorFactory\PlatformLocatorFactory();
-$locator = $locatorFactory->createFromEnvironment();
+$locator = $locatorFactory->create();
 
 var_dump($locator->locate('foo/php'));
 // NULL
@@ -124,7 +124,7 @@ multiple places on the `PATH`, this will return all of them.  It behaves all
 the rules as the standard `locate` method.
 ```php
 $locatorFactory = new \Nubs\Which\LocatorFactory\PlatformLocatorFactory();
-$locator = $locatorFactory->createFromEnvironment();
+$locator = $locatorFactory->create();
 
 var_dump($locator->locateAll('php'));
 // array(2) {
