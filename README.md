@@ -56,12 +56,12 @@ POSIXy system (e.g., Linux, OSX, BSD), you can use the `PosixLocatorFactory`
 and if you are on a Windows system you can use the `WindowsLocatorFactory`.
 ```php
 $locatorFactory = new \Nubs\Which\LocatorFactory\PosixLocatorFactory();
-$locator = $LocatorFactory->create()
+$locator = $locatorFactory->create()
 
 // or
 
 $locatorFactory = new \Nubs\Which\LocatorFactory\WindowsLocatorFactory();
-$locator = $LocatorFactory->create()
+$locator = $locatorFactory->create()
 ```
 
 Finally, if you want full control over the paths that are searched, you can use
