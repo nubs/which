@@ -61,23 +61,4 @@ class PlatformLocatorFactoryTest extends PHPUnit_Framework_TestCase
         $locatorFactory = new PlatformLocatorFactory($this->_isolator);
         $locator = $locatorFactory->createFromEnvironment($env);
     }
-
-    /**
-     * Verify that constructing from string path works on linux.
-     *
-     * @test
-     * @covers ::__construct
-     * @covers ::createFromPath
-     * @uses \Nubs\Which\Locator::__construct
-     * @uses \Nubs\Which\LocatorFactory\PosixLocatorFactory::createFromPath
-     * @uses \Nubs\Which\PathBuilder\PosixPathBuilder::__construct
-     * @uses \Nubs\Which\ExecutableTester::__construct
-     */
-    public function createFromPathWithPosix()
-    {
-        $this->_isolator->expects($this->once())->method('defined')->with('PHP_WINDOWS_VERSION_BUILD')->will($this->returnValue(false));
-
-        $locatorFactory = new PlatformLocatorFactory($this->_isolator);
-        $locator = $locatorFactory->createFromPath('abcd');
-    }
 }

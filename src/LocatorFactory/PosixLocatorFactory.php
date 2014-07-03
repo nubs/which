@@ -1,13 +1,14 @@
 <?php
 namespace Nubs\Which\LocatorFactory;
 
+use Habitat\Environment\Environment;
 use Nubs\Which\Locator;
 use Nubs\Which\PathBuilder\PosixPathBuilder;
 
 /**
  * Locator factory for POSIXy systems (e.g. Linux, OSX, BSD).
  */
-class PosixLocatorFactory extends AbstractLocatorFactory
+class PosixLocatorFactory implements LocatorFactoryInterface
 {
     /**
      * Create a locator using a colon-separated PATH string.
@@ -22,5 +23,19 @@ class PosixLocatorFactory extends AbstractLocatorFactory
     public function createFromPath($path)
     {
         return new Locator(new PosixPathBuilder(array_filter(explode(':', $path))));
+    }
+
+    /**
+     * Create a locator from the PATH environment variable.
+     *
+     * @api
+     * @param \Habitat\Environment\Environment $environment The environment
+     *     variable wrapper.  Defaults to null which just uses PHP's built-in
+     *     getenv.
+     * @return \Nubs\Which\Locator The locator.
+     */
+    public function createFromEnvironment(Environment $environment = null)
+    {
+        return $this->createFromPath($environment ? $environment->getenv('PATH') : getenv('PATH'));
     }
 }

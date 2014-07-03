@@ -50,24 +50,18 @@ $locatorFactory = new \Nubs\Which\LocatorFactory\PlatformLocatorFactory();
 $locator = $locatorFactory->createFromEnvironment();
 ```
 
-Or you can construct the locator using the `PATH` environment variable
-directly:
-```php
-$path = getenv('PATH');
-$locatorFactory = new \Nubs\Which\LocatorFactory\PlatformLocatorFactory();
-$locator = $locatorFactory->createFromPath($path);
-```
-
 There are also two platform-specific factories in case you don't want to rely
 on the platform detection in the `PlatformLocatorFactory`.  If you are on a
 POSIXy system (e.g., Linux, OSX, BSD), you can use the `PosixLocatorFactory`
 and if you are on a Windows system you can use the `WindowsLocatorFactory`.
 ```php
 $locatorFactory = new \Nubs\Which\LocatorFactory\PosixLocatorFactory();
+$locator = $LocatorFactory->createFromEnvironment()
 
 // or
 
 $locatorFactory = new \Nubs\Which\LocatorFactory\WindowsLocatorFactory();
+$locator = $LocatorFactory->createFromEnvironment()
 ```
 
 Finally, if you want full control over the paths that are searched, you can use

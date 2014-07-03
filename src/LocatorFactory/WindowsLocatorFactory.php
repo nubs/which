@@ -8,7 +8,7 @@ use Nubs\Which\PathBuilder\WindowsPathBuilder;
 /**
  * Locator factory for Windows systems.
  */
-class WindowsLocatorFactory extends AbstractLocatorFactory
+class WindowsLocatorFactory implements LocatorFactoryInterface
 {
     /**
      * Create a locator using semicolon-separated PATH and PATHEXT strings.
@@ -23,7 +23,7 @@ class WindowsLocatorFactory extends AbstractLocatorFactory
      * @param string $pathext The semicolon-separated PATHEXT string.
      * @return \Nubs\Which\Locator The locator.
      */
-    public function createFromPath($path, $pathext = '')
+    public function createFromPath($path, $pathext)
     {
         $paths = array_merge(['.'], array_filter(explode(';', $path)));
         $extensions = array_merge([''], array_filter(explode(';', $pathext)));
