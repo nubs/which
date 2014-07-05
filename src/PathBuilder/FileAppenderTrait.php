@@ -23,7 +23,7 @@ trait FileAppenderTrait
             return $this->_joinPaths($path, $file);
         };
 
-        return array_map($appendFile, $this->_paths);
+        return array_map($appendFile, $paths);
     }
 
     /**
@@ -33,7 +33,7 @@ trait FileAppenderTrait
      * @param string $end The ending segment.
      * @return string The joined segments.
      */
-    abstract protected function _joinPaths($path, $file);
+    abstract protected function _joinPaths($start, $end);
 
     /**
      * Checks to see if a path is just a single atom (no directory).
@@ -41,5 +41,5 @@ trait FileAppenderTrait
      * @param string $path The path to check.
      * @return boolean True if it's an atom, false otherwise.
      */
-    abstract protected function _isAtom($path, $file);
+    abstract protected function _isAtom($path);
 }
