@@ -23,6 +23,7 @@ class PosixPathBuilderTest extends PHPUnit_Framework_TestCase
      * @covers ::getPermutations
      * @covers ::_joinPaths
      * @covers ::_isAtom
+     * @covers \Nubs\Which\PathBuilder\FileAppenderTrait
      */
     public function getPermutations()
     {
@@ -37,6 +38,7 @@ class PosixPathBuilderTest extends PHPUnit_Framework_TestCase
      * @covers ::getPermutations
      * @covers ::_joinPaths
      * @covers ::_isAtom
+     * @covers \Nubs\Which\PathBuilder\FileAppenderTrait
      */
     public function getPermutationsForAbsolutePath()
     {
@@ -51,6 +53,7 @@ class PosixPathBuilderTest extends PHPUnit_Framework_TestCase
      * @covers ::getPermutations
      * @covers ::_joinPaths
      * @covers ::_isAtom
+     * @covers \Nubs\Which\PathBuilder\FileAppenderTrait
      */
     public function getPermutationsForSubdirectory()
     {

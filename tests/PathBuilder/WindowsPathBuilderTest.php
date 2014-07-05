@@ -25,6 +25,8 @@ class WindowsPathBuilderTest extends PHPUnit_Framework_TestCase
      * @covers ::_addExtension
      * @covers ::_isAtom
      * @covers ::_hasExtension
+     * @covers \Nubs\Which\PathBuilder\FileAppenderTrait
+     * @covers \Nubs\Which\PathBuilder\WindowsExtensionAppenderTrait
      */
     public function getPermutations()
     {
@@ -44,6 +46,8 @@ class WindowsPathBuilderTest extends PHPUnit_Framework_TestCase
      * @covers ::_addExtension
      * @covers ::_isAtom
      * @covers ::_hasExtension
+     * @covers \Nubs\Which\PathBuilder\FileAppenderTrait
+     * @covers \Nubs\Which\PathBuilder\WindowsExtensionAppenderTrait
      */
     public function getPermutationsForAbsolutePath()
     {
@@ -60,6 +64,8 @@ class WindowsPathBuilderTest extends PHPUnit_Framework_TestCase
      * @covers ::_addExtension
      * @covers ::_isAtom
      * @covers ::_hasExtension
+     * @covers \Nubs\Which\PathBuilder\FileAppenderTrait
+     * @covers \Nubs\Which\PathBuilder\WindowsExtensionAppenderTrait
      */
     public function getPermutationsForSubdirectory()
     {
@@ -75,6 +81,8 @@ class WindowsPathBuilderTest extends PHPUnit_Framework_TestCase
      * @covers ::_joinPaths
      * @covers ::_isAtom
      * @covers ::_hasExtension
+     * @covers \Nubs\Which\PathBuilder\FileAppenderTrait
+     * @covers \Nubs\Which\PathBuilder\WindowsExtensionAppenderTrait
      */
     public function getPermutationsWithExtension()
     {
