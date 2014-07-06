@@ -101,27 +101,20 @@ var_dump($locator->locate('asdf'));
 // NULL
 ```
 
-It can also be given an absolute path, in which case the configured paths are
-ignored and only the absolute path is checked:
+It can also be given an absolute or a relative path, in which case the
+configured paths are ignored and pathing is done based off the current
+directory:
 ```php
 $locatorFactory = new \Nubs\Which\LocatorFactory\PlatformLocatorFactory();
 $locator = $locatorFactory->create();
 
 echo $locator->locate('/opt/php/bin/php');
 // /opt/php/bin/php
-```
 
-Except for absolute paths, all other directory traversal is ignored and will
-return `null` as though no matching command was found:
-```php
-$locatorFactory = new \Nubs\Which\LocatorFactory\PlatformLocatorFactory();
-$locator = $locatorFactory->create();
+chdir('/opt/php');
 
-var_dump($locator->locate('foo/php'));
-// NULL
-
-var_dump($locator->locate('../bin/php'));
-// NULL
+echo $locator->locate('bin/php');
+// /opt/php/bin/php
 ```
 
 Finally, an additional `locateAll` method is included.  If a command exists at
@@ -149,8 +142,12 @@ var_dump($locator->locateAll('/opt/php/bin/php'));
 //   string(16) "/opt/php/bin/php"
 // }
 
-var_dump($locator->locate('../bin/php'));
-// array(0) {
+chdir('/opt/php');
+
+var_dump($locator->locateAll('bin/php'));
+// array(1) {
+//   [0] =>
+//   string(16) "/opt/php/bin/php"
 // }
 ```
 
