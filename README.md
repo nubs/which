@@ -16,7 +16,7 @@ This library requires PHP 5.4, or newer.
 
 ## Installation
 This package uses [composer](https://getcomposer.org) so you can just add
-`nubs\which` as a dependency to your `composer.json` file or execute the
+`nubs/which` as a dependency to your `composer.json` file or execute the
 following command:
 
 ```bash
