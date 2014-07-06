@@ -23,7 +23,6 @@ following command:
 composer require nubs/which
 ```
 
-
 ## Example
 Here is a quick example to demonstrate how this library is generally meant to
 be used:
