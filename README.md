@@ -48,8 +48,8 @@ $locatorFactory = new \Nubs\Which\LocatorFactory\PlatformLocatorFactory();
 $locator = $locatorFactory->create($environment);
 ```
 
-If you'd prefer not to add another external dependency, you don't have to use
-Habitat and can instead use PHP's built in `getenv`:
+Habitat environment is not necessary.  Without passing an environment, PHP's
+built-in `getenv` will be used:
 ```php
 $locatorFactory = new \Nubs\Which\LocatorFactory\PlatformLocatorFactory();
 $locator = $locatorFactory->create();
