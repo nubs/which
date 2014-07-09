@@ -168,3 +168,6 @@ The command is configured as a binary with composer, so it is accessible in
 means that you can find it in `$COMPOSER_HOME/vendor/bin/which`.  This command
 does require the symfony/console package to be installed and accessible via the
 autoloader.
+
+For windows users, please update your PATH in the Environment Variable
+to reference the \bin directory.
