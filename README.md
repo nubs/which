@@ -168,3 +168,9 @@ The command is configured as a binary with composer, so it is accessible in
 means that you can find it in `$COMPOSER_HOME/vendor/bin/which`.  This command
 does require the symfony/console package to be installed and accessible via the
 autoloader.
+
+For windows users, the preferred installation method is using composer, i.e.
+via `composer global require`.  Composer will create a `which.bat` script in
+its bin directory that can be executed.  Alternatively, a `which.bat` script is
+included.  You may need to add the `bin` directory from this repository to your
+`PATH` environment variable to be able to access the command globally.
