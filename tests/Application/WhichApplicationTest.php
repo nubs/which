@@ -39,7 +39,7 @@ class WhichApplicationTest extends PHPUnit_Framework_TestCase
 
         $this->_applicationTester->run(['commands' => ['foo']]);
         $this->assertSame(0, $this->_applicationTester->getStatusCode());
-        $this->assertSame("/path/to/foo\n", $this->_applicationTester->getDisplay());
+        $this->assertRegExp('#^/path/to/foo\s*$#', $this->_applicationTester->getDisplay());
     }
 
     /**
@@ -60,7 +60,7 @@ class WhichApplicationTest extends PHPUnit_Framework_TestCase
 
         $this->_applicationTester->run(['commands' => ['foo', 'bar']]);
         $this->assertSame(0, $this->_applicationTester->getStatusCode());
-        $this->assertSame("/path/to/foo\n/path/to/bar\n", $this->_applicationTester->getDisplay());
+        $this->assertRegExp('#^/path/to/foo\s*/path/to/bar\s*$#', $this->_applicationTester->getDisplay());
     }
 
     /**
@@ -80,6 +80,6 @@ class WhichApplicationTest extends PHPUnit_Framework_TestCase
 
         $this->_applicationTester->run(['commands' => ['foo']]);
         $this->assertSame(1, $this->_applicationTester->getStatusCode());
-        $this->assertSame("foo not found\n", $this->_applicationTester->getDisplay());
+        $this->assertRegExp('#^foo not found\s*$#', $this->_applicationTester->getDisplay());
     }
 }
