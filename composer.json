@@ -27,7 +27,7 @@
         "bin/which"
     ],
     "autoload": {
-        "psr-4": { 
+        "psr-4": {
             "Nubs\\Which\\": "src"
         }
     }
