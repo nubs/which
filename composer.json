@@ -1,7 +1,7 @@
 {
     "name": "nubs/which",
     "description": "A library for locating commands in a PATH.",
-    "keywords": ["which", "script", "path", "executable", "linux"],
+    "keywords": ["which", "script", "path", "executable", "linux", "windows"],
     "authors": [
         {
             "name": "Spencer Rinehart",
@@ -15,17 +15,12 @@
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0",
-        "symfony/console": "~2.5",
         "brianium/habitat": "~1.0",
         "squizlabs/php_codesniffer": "~1.5"
     },
     "suggest": {
-        "brianium/habitat": "For better access to environment variables (e.g., for mocking).",
-        "symfony/console": "For the executable which command."
+        "brianium/habitat": "For better access to environment variables (e.g., for mocking)."
     },
-    "bin": [
-        "bin/which"
-    ],
     "autoload": {
         "psr-4": {
             "Nubs\\Which\\": "src"
