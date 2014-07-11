@@ -11,7 +11,7 @@ class Locator
     /** @type \Nubs\Which\PathBuilder\PathBuilderInterface The path builder. */
     private $_pathBuilder;
 
-    /** @type \Nubs\Which\ExecutableTester The executable tester. */
+    /** @type callable The executable tester. */
     private $_executableTester;
 
     /**
