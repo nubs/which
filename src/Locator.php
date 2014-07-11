@@ -20,10 +20,12 @@ class Locator
      * @api
      * @param \Nubs\Which\PathBuilder\PathBuilderInterface $pathBuilder The path
      *     builder.
-     * @param \Nubs\Which\ExecutableTester $executableTester The executable
-     *     tester.
+     * @param callable $executableTester The executable tester, a callable that
+     *     is passed a file path and should return true for an executable
+     *     command, false otherwise.  Defaults to the invokable
+     *     \Nubs\Which\ExecutableTester.
      */
-    public function __construct(PathBuilderInterface $pathBuilder, ExecutableTester $executableTester = null)
+    public function __construct(PathBuilderInterface $pathBuilder, callable $executableTester = null)
     {
         $this->_pathBuilder = $pathBuilder;
         $this->_executableTester = $executableTester ?: new ExecutableTester();
