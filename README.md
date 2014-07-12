@@ -155,3 +155,12 @@ var_dump($locator->locateAll('bin/php'));
 There is also a CLI interface for both POSIX systems and Windows that imitates
 the standard which command.  It is available as
 [`nubs/which-cli`](https://github.com/nubs/which-cli).
+
+### Why?
+I created which in order to fill a hole I came across: Detecting whether a user
+has a certain command installed.  Primarily this was for
+[sensible](https://github.com/nubs/sensible), a library that picks the user's
+preferred editor/browser/pager and falls back to a sensible default if no
+preference is specified.  which provides the ability for sensible to decide
+whether the different command choices exist.  Read more about it on my
+[blog](http://www.overthemonkey.com/blog/which-which-is-which).
