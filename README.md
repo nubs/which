@@ -164,3 +164,7 @@ preferred editor/browser/pager and falls back to a sensible default if no
 preference is specified.  which provides the ability for sensible to decide
 whether the different command choices exist.  Read more about it on my
 [blog](http://www.overthemonkey.com/blog/which-which-is-which).
+
+### Similar Projects
+I am also aware of a node.js library with a similar role:
+[node-which](https://github.com/isaacs/node-which).
