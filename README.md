@@ -3,7 +3,7 @@ A PHP library for locating commands in a PATH.
 
 [![Build Status](http://img.shields.io/travis/nubs/which.svg?style=flat)](https://travis-ci.org/nubs/which)
 [![Scrutinizer Code Quality](http://img.shields.io/scrutinizer/g/nubs/which.svg?style=flat)](https://scrutinizer-ci.com/g/nubs/which/)
-[![Code Coverage](http://img.shields.io/scrutinizer/coverage/g/nubs/which.svg?style=flat)](https://scrutinizer-ci.com/g/nubs/which/)
+[![Code Coverage](http://img.shields.io/coveralls/nubs/which.svg?style=flat)](https://coveralls.io/r/nubs/which)
 
 [![Latest Stable Version](http://img.shields.io/packagist/v/nubs/which.svg?style=flat)](https://packagist.org/packages/nubs/which)
 [![Total Downloads](http://img.shields.io/packagist/dt/nubs/which.svg?style=flat)](https://packagist.org/packages/nubs/which)
