@@ -168,3 +168,7 @@ whether the different command choices exist.  Read more about it on my
 ### Similar Projects
 I am also aware of a node.js library with a similar role:
 [node-which](https://github.com/isaacs/node-which).
+
+## License
+which is licensed under the MIT license.  See [LICENSE](LICENSE) for the full
+license text.
