@@ -12,7 +12,7 @@ A PHP library for locating commands in a PATH.
 [![Dependency Status](https://www.versioneye.com/user/projects/53a01f7b83add749a300001e/badge.svg?style=flat)](https://www.versioneye.com/user/projects/53a01f7b83add749a300001e)
 
 ## Requirements
-This library requires PHP 5.5, or newer.
+This library requires PHP 5.6, or newer.
 
 ## Installation
 This package uses [composer](https://getcomposer.org) so you can just add
