@@ -118,8 +118,8 @@ echo $locator->locate('bin/php');
 ```
 
 Finally, an additional `locateAll` method is included.  If a command exists at
-multiple places on the `PATH`, this will return all of them.  It behaves all
-the rules as the standard `locate` method.
+multiple places on the `PATH`, this will return all of them.  It operates
+under all the rules as the standard `locate` method.
 ```php
 $locatorFactory = new \Nubs\Which\LocatorFactory\PlatformLocatorFactory();
 $locator = $locatorFactory->create();
