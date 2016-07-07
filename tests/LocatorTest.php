@@ -16,8 +16,8 @@ class LocatorTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_pathBuilder = $this->getMockBuilder('\Nubs\Which\PathBuilder\PathBuilderInterface')->setMethods(['getPermutations'])->getMock();
-        $this->_executableTester = $this->getMockBuilder('\Nubs\Which\ExecutableTester')->disableOriginalConstructor()->setMethods(['__invoke'])->getMock();
+        $this->_pathBuilder = $this->createMock('\Nubs\Which\PathBuilder\PathBuilderInterface');
+        $this->_executableTester = $this->createMock('\Nubs\Which\ExecutableTester');
         $this->_locator = new Locator($this->_pathBuilder, $this->_executableTester);
     }
 

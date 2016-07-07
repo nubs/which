@@ -27,7 +27,7 @@ class PosixLocatorFactoryTest extends PHPUnit_Framework_TestCase
      */
     public function create()
     {
-        $env = $this->getMockBuilder('\Habitat\Environment\Environment')->disableOriginalConstructor()->setMethods(['getenv'])->getMock();
+        $env = $this->createMock('\Habitat\Environment\Environment');
         $env->expects($this->once())->method('getenv')->with('PATH')->will($this->returnValue('abcd'));
 
         $locator = $this->_locatorFactory->create($env);
