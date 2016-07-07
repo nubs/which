@@ -31,7 +31,7 @@ class PlatformLocatorFactoryTest extends PHPUnit_Framework_TestCase
     {
         $this->_isolator->expects($this->once())->method('defined')->with('PHP_WINDOWS_VERSION_BUILD')->will($this->returnValue(true));
 
-        $env = $this->getMockBuilder('\Habitat\Environment\Environment')->disableOriginalConstructor()->setMethods(['getenv'])->getMock();
+        $env = $this->createMock('\Habitat\Environment\Environment');
         $env->expects($this->at(0))->method('getenv')->with('PATH')->will($this->returnValue('abcd'));
         $env->expects($this->at(1))->method('getenv')->with('PATHEXT')->will($this->returnValue('abcd'));
 
@@ -55,7 +55,7 @@ class PlatformLocatorFactoryTest extends PHPUnit_Framework_TestCase
     {
         $this->_isolator->expects($this->once())->method('defined')->with('PHP_WINDOWS_VERSION_BUILD')->will($this->returnValue(false));
 
-        $env = $this->getMockBuilder('\Habitat\Environment\Environment')->disableOriginalConstructor()->setMethods(['getenv'])->getMock();
+        $env = $this->createMock('\Habitat\Environment\Environment');
         $env->expects($this->once())->method('getenv')->with('PATH')->will($this->returnValue('abcd'));
 
         $locatorFactory = new PlatformLocatorFactory($this->_isolator);
